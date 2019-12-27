@@ -1,0 +1,4 @@
+# ESP-IDF ignores
+build/
+sdkconfig
+sdkconfig.old
