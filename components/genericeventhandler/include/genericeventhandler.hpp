@@ -11,7 +11,7 @@
 class EventHandler
 {
 public:
-  virtual esp_err_t event_handler(void *, system_event_t *);
+  virtual esp_err_t event_handler(void *, system_event_t *)=0;
 };
 
 #endif
