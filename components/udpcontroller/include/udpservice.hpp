@@ -46,8 +46,8 @@ namespace communication
      *   TickType_t xDelay = pdMS_TO_TICKS( 500 );
      *   for(;;)
      *   {
-     *     udpController->process_next_message();
-     *     udpController->listen();
+     *     udpService->process_next_message();
+     *     udpService->listen();
      *     vTaskDelay(xDelay);
      *   }
      * }

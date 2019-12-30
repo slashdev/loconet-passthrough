@@ -1,9 +1,11 @@
 #include "udpserver.hpp"
 #include "esp_log.h"
+#include "event_handlers.hpp"
 
 UDPServer::UDPServer()
 {
 	service_ = new communication::udp::Service();
+	EventHandlers::add(this);
 }
 
 UDPServer::UDPServer(uint16_t portnumber) : UDPServer()
