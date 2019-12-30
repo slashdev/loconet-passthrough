@@ -6,7 +6,7 @@ set(COMPONENT_SRCS
 )
 
 set(COMPONENT_REQUIRES 
-        genericeventhandler
+        event_handlers
     )
 
 register_component()
