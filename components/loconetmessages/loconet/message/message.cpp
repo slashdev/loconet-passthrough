@@ -57,21 +57,5 @@ namespace loconet
 		}
 
 
-		Message* Message::create(uint8_t *data, size_t length)
-		{
-			if (length < 2) {
-				return NULL;
-			}
-
-			switch((OPCODE) data[0])
-			{
-				case BUSY:
-					return new Busy();
-				default:
-					return NULL;
-			}
-
-		}
-
 	}
 }

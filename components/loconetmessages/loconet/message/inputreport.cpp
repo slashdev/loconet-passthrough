@@ -11,14 +11,14 @@ namespace loconet
 			input(ishigh);
 		}
 
+		InputReport::InputReport(uint16_t addr) : InputReport(addr, false)
+		{
+		}
+
 		InputReport::InputReport(uint8_t byte1, uint8_t byte2) : Message(INPUT_REP, 4)
 		{
 			address(byte1, byte2);
 			input(byte2);
-		}
-
-		InputReport::InputReport() : InputReport(0, false)
-		{
 		}
 
 		uint16_t InputReport::address()

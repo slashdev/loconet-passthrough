@@ -95,12 +95,6 @@ namespace loconet
 			 */
 			opcode_t opcode();
 
-			/*
-			 * Creates a message from a byte representation
-			 * if parsing fails, NULL is returned.
-			 */
-			static Message* create(uint8_t *, size_t);
-
 		protected:
 			/*
 			 * Creates an empty message of a certain type.
