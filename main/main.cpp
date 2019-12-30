@@ -4,20 +4,20 @@
 
 #include "sdkconfig.h"
 #include "esp_system.h"
-#include "esp_event_loop.h"
+#include "esp_event.h"
 #include "esp_log.h"
 
 #include "nvs_flash.h"
 
-#include "genericeventloop.hpp"
+#include "event_handlers.hpp"
 
 #include "wifiswitcher.hpp"
 
 extern "C" {
 
-    static esp_err_t event_handler(void *ctx, system_event_t *event)
+    static esp_err_t handle_event(void *ctx, system_event_t *event)
     {
-        return EventLoop::get_instance()->handle(ctx, event);
+        return EventHandlers::handle_event(ctx, event);
     }
 
     void app_main()
@@ -30,7 +30,7 @@ extern "C" {
         }
         ESP_ERROR_CHECK(ret);
 
-        ESP_ERROR_CHECK(esp_event_loop_init(event_handler, NULL) );
+        ESP_ERROR_CHECK(esp_event_loop_init(handle_event, NULL) );
         tcpip_adapter_init();
 
         WifiSwitcher::ap()->set_ssid("sd_loconet");

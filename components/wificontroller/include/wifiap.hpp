@@ -17,7 +17,7 @@ public:
 
   void connect();
 
-  esp_err_t event_handler(void *, system_event_t *);
+  esp_err_t handle_event(void *, system_event_t *);
 private:
   wifi_config_t cfg_ap_ = {};
 

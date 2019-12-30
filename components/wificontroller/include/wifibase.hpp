@@ -1,7 +1,7 @@
 #ifndef WIFIBASE_HPP_
 #define WIFIBASE_HPP_
 
-#include "genericeventhandler.hpp"
+#include "event_handler.hpp"
 #include <string>
 #include "esp_system.h"
 #include "esp_wifi.h"

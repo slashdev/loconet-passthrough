@@ -1,14 +1,14 @@
 #include "wifiswitcher.hpp"
-#include "genericeventloop.hpp"
+#include "event_handlers.hpp"
 
 WifiSwitcher::WifiSwitcher()
 {
   ap_ = new WifiAP();
   station_ = new WifiStation();
 
-  EventLoop::get_instance()->register_handler(this);
-  EventLoop::get_instance()->register_handler(ap_);
-  EventLoop::get_instance()->register_handler(station_);
+  EventHandlers::add(this);
+  EventHandlers::add(ap_);
+  EventHandlers::add(station_);
 }
 
 WifiAP* WifiSwitcher::ap()
@@ -33,7 +33,7 @@ void WifiSwitcher::start()
   }
 }
 
-esp_err_t WifiSwitcher::event_handler(void *ctx, system_event_t *event)
+esp_err_t WifiSwitcher::handle_event(void *ctx, system_event_t *event)
 {
   switch(event->event_id)
   {
