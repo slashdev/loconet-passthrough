@@ -7,10 +7,9 @@ namespace loconet
 {
 	namespace message
 	{
-		class InputReport : Message
+		class InputReport : public Message
 		{
 		public:
-			InputReport();
 			InputReport(uint16_t);
 			InputReport(uint16_t, bool);
 			InputReport(uint8_t, uint8_t);
