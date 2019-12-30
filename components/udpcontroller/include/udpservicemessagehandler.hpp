@@ -9,9 +9,9 @@ namespace communication
     class MessageHandler
     {
     public:
-      virtual void on_message_received(uint8_t*, size_t);
+      virtual void on_message_received(uint8_t*, size_t)=0;
     };
-    
+
   } // End of namespace udp
 } // End of namespace communication
 
