@@ -1,13 +1,13 @@
-set(COMPONENT_ADD_INCLUDEDIRS loconet)
+set(COMPONENT_ADD_INCLUDEDIRS src)
 set(COMPONENT_SRCS
-			"loconet/message/message.cpp"
-			"loconet/message/busy.cpp"
-			"loconet/message/inputreport.cpp"
-			"loconet/message/messageparser.cpp"
+			"src/loconet/message/message.cpp"
+			"src/loconet/message/busy.cpp"
+			"src/loconet/message/inputreport.cpp"
+			"src/loconet/message/messageparser.cpp"
 )
 
 set(COMPONENT_REQUIRES
-
+			freertos
 )
 
 register_component()
