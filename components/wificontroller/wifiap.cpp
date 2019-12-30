@@ -56,7 +56,7 @@ void WifiAP::connect()
   ESP_ERROR_CHECK(esp_wifi_start() );
 }
 
-esp_err_t WifiAP::event_handler(void *ctx, system_event_t *event)
+esp_err_t WifiAP::handle_event(void *ctx, system_event_t *event)
 {
   switch(event->event_id)
   {

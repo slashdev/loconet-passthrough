@@ -48,7 +48,7 @@ void WifiStation::set_allow_retry(bool retry)
 }
 
 
-esp_err_t WifiStation::event_handler(void *ctx, system_event_t *event)
+esp_err_t WifiStation::handle_event(void *ctx, system_event_t *event)
 {
   switch(event->event_id)
   {

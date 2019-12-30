@@ -1,7 +1,7 @@
 #ifndef WIFISWITCHER_HPP_
 #define WIFISWITCHER_HPP_
 
-#include "genericeventhandler.hpp"
+#include "event_handler.hpp"
 
 #include "wifiap.hpp"
 #include "wifistation.hpp"
@@ -17,7 +17,7 @@ public:
 
   static void start();
 
-  esp_err_t event_handler(void *, system_event_t *);
+  esp_err_t handle_event(void *, system_event_t *);
 
   static WifiSwitcher* instance();
 
