@@ -56,6 +56,5 @@ namespace loconet
 			return checksum;
 		}
 
-
 	}
 }
