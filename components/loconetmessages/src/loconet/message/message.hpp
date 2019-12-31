@@ -18,13 +18,6 @@
 // Required for all the types being used
 #include "esp_system.h"
 
-// Required for the calloc call in all messages
-#include <string>
-
-// For the dynamic_cast
-#include <iostream>
-
-
 namespace loconet
 {
 	namespace message
@@ -97,24 +90,6 @@ namespace loconet
 			 * Returns the opcode of a message
 			 */
 			opcode_t opcode();
-
-			/**
-			 * We override the new and delete operators, so that malloc is used.
-			 * This makes it safe to use the same message over different
-			 * FreeRTOS tasks
-			 * THIS REALLY NEEDS TO BE TESTED EXTENSIVELY
-			 */
-			void * operator new (size_t size)
-			{
-				void * ptr = malloc(size);
-
-				return ptr;
-			}
-
-			void operator delete (void* ptr)
-			{
-				free(ptr);
-			}
 
 		protected:
 			/*
