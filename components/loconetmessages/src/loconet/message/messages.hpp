@@ -17,7 +17,10 @@ namespace loconet
 {
 	namespace message
 	{
-
+		/**
+		 * Returns a string representation of the known OPCodes
+		 */
+  	const char* to_str(opcode_t opc);
 		/*
 		 * Creates a message from a byte representation
 		 * if parsing fails, NULL is returned.

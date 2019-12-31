@@ -1,4 +1,4 @@
-set(COMPONENT_SRCS 
+set(COMPONENT_SRCS
     "main.cpp"
     "wifiswitcher.cpp"
 )
