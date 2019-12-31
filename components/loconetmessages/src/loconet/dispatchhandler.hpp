@@ -6,7 +6,7 @@ namespace loconet
 	class DispatchHandler
 	{
 	public:
-		virtual void handle_message(uint8_t*, size_t) = 0;
+		virtual void handle_message(uint8_t*, size_t);
 	};
 }
 

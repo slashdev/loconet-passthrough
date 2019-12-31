@@ -10,6 +10,7 @@ set(COMPONENT_SRCS
 
 set(COMPONENT_REQUIRES
 			freertos
+			log
 )
 
 register_component()

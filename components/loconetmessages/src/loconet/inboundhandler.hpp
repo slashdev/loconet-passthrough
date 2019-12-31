@@ -8,7 +8,7 @@ namespace loconet
 	class InboundHandler
 	{
 	public:
-		virtual void handle_message(message::Message*)=0;
+		virtual void handle_message(message::Message*);
 	};
 }
 

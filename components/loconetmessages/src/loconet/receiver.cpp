@@ -52,7 +52,7 @@ namespace loconet
 						h->handle_message(msg);
 					}
 	        // Free the memory of msg
-	        delete &msg;
+	        delete msg;
 	      }
 	      vTaskDelay(xDelay);
 	    }
