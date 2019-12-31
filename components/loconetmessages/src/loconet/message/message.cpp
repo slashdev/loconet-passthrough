@@ -9,6 +9,7 @@ namespace loconet
 			opcode_ = opc;
 			length_ = length;
 			data_ = (uint8_t*) calloc(length_, sizeof(uint8_t));
+			data_[0] = opc;
 		}
 
 		Message::~Message()
@@ -48,7 +49,7 @@ namespace loconet
 		{
 			// calculate the checksum: XOR each byte with checksum
 			uint8_t checksum = 0xFF;
-			for(size_t i = 0 ; i < length_ ; i++)
+			for(size_t i = 0 ; i < length_ - 1 ; i++)
 			{
 				checksum ^= data_[i];
 			}
