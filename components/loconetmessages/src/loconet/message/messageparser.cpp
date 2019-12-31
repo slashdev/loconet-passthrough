@@ -1,5 +1,7 @@
 #include "messages.hpp"
 
+// Required for malloc
+#include <string>
 
 namespace loconet
 {
@@ -13,7 +15,7 @@ namespace loconet
 				return NULL;
 			}
 
-			Message* msg;
+			Message* msg = NULL;
 
 			switch(data[0])
 			{
@@ -25,21 +27,21 @@ namespace loconet
 					{
 						msg = new InputReport(data[1], data[2]);
 					}
-					else
-					{
-						return NULL;
-					}
 					break;
 				default:
-					return NULL;
+					msg = NULL;
+					break;
 			}
-
-			// Check the checksums
-			if (data[length-1] == msg->calculate_checksum())
+			if (msg != NULL)
 			{
-				return msg;
+				// Check the checksums
+				if (data[length-1] == msg->calculate_checksum())
+				{
+					return msg;
+				}
+				// We do not need msg
+				delete msg;
 			}
-
 			return NULL;
 		}
 
