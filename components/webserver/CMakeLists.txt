@@ -1,15 +1,12 @@
-set(COMPONENT_ADD_INCLUDEDIRS include)
-set(COMPONENT_SRCS  
-        "src/webserver.cpp"
-        "src/urihandler.cpp"
-        "src/gethandler.cpp"
-        "src/posthandler.cpp"
-        "src/stringhandler.cpp"
+set(COMPONENT_ADD_INCLUDEDIRS src)
+set(COMPONENT_SRCS
+        "src/httpd/server.cpp"
+        "src/httpd/session.cpp"
 )
 
-set(COMPONENT_REQUIRES 
+set(COMPONENT_REQUIRES
         log
-        esp_http_server
+        lwip
     )
 
 register_component()
