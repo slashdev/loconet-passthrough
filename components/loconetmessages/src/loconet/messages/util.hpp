@@ -9,8 +9,11 @@ namespace loconet
 {
   namespace messages
   {
-    const char* to_string(OPCode::eOPCode_t);
+    namespace util
+    {
+      const char* to_string(OPCode::eOPCode_t);
 
-    uint8_t calculate_checksum(uint8_t *, size_t);
+      uint8_t calculate_checksum(uint8_t *, size_t);
+    }
   }
 }

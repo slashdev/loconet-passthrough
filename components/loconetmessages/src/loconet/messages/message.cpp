@@ -40,7 +40,7 @@ namespace loconet
 		{
 			if(data_[length_ - 1] == 0)
 			{
-				data_[length_ -1 ] = calculate_checksum(data_, length_);
+				data_[length_ -1 ] = util::calculate_checksum(data_, length_);
 			}
 
 			return data_[length_ -1];

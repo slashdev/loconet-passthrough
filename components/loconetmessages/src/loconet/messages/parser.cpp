@@ -14,7 +14,7 @@ namespace loconet
 			{
 				return NULL;
 			}
-			if (calculate_checksum(data, length) != 0)
+			if (util::calculate_checksum(data, length) != 0)
 			{
 				return NULL;
 			}
