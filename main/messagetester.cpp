@@ -7,7 +7,8 @@
 #include "esp_event.h"
 #include "esp_log.h"
 
-#include "loconet/message/messages.hpp"
+#include "loconet/messages.hpp"
+#include "loconet/messages/parser.hpp"
 #include "loconet/receiver.hpp"
 #include "loconet/inboundhandler.hpp"
 #include "loconet/dispatcher.hpp"
@@ -23,7 +24,7 @@ public:
     loconet::Receiver::add(this);
   }
 
-  void handle_message(loconet::message::Message* msg)
+  void handle_message(loconet::messages::Message* msg)
   {
     ESP_LOGI("HANDLER", "I got message: OPCODE: %d, LENGTH: %d", msg->opcode(), msg->length());
     loconet::Dispatcher::enqueue(msg);
@@ -40,7 +41,7 @@ public:
   void handle_message(uint8_t* data, size_t length)
   {
     ESP_LOGI("DISPATCH", "I dispatch a message of %d bytes", length);
-    loconet::message::Message* msg = loconet::message::parse(data, length);
+    loconet::messages::Message* msg = loconet::messages::Parser::parse(data, length);
     if (msg == NULL)
     {
       ESP_LOGW("DISPATCH", "Wrong message type!");
@@ -126,7 +127,7 @@ extern "C" {
   		ESP_LOGI("MAIN", "LOOP");
   		size_t before = xPortGetFreeHeapSize();
   		ESP_LOGI("MAIN", "Memory: %d", before);
-  		loconet::message::Busy* busy = new loconet::message::Busy();
+  		loconet::messages::Busy* busy = new loconet::messages::Busy();
   		ESP_LOGI("MAIN", "Size: %d", busy->length());
   		delete busy;
   		size_t after = xPortGetFreeHeapSize();
@@ -157,7 +158,7 @@ extern "C" {
   		ESP_LOGI("MAIN", "LOOP");
   		size_t before = xPortGetFreeHeapSize();
   		ESP_LOGI("MAIN", "Memory: %d", before);
-  		loconet::message::Busy* busy = new loconet::message::Busy();
+  		loconet::messages::Busy* busy = new loconet::messages::Busy();
   		ESP_LOGI("MAIN", "Size: %d", busy->length());
   		size_t after = xPortGetFreeHeapSize();
   		ESP_LOGI("MAIN", "Memory: %d", after);

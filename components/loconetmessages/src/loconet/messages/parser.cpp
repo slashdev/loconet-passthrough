@@ -1,11 +1,11 @@
-#include "messages.hpp"
+#include "parser.hpp"
 
 // Required for malloc
 #include <string>
 
 namespace loconet
 {
-	namespace message
+	namespace messages
 	{
 
     const char* to_str(opcode_t opc)

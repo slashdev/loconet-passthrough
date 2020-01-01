@@ -2,7 +2,7 @@
 
 namespace loconet
 {
-	namespace message
+	namespace messages
 	{
 		Busy::Busy() : Message(BUSY, 2)
 		{

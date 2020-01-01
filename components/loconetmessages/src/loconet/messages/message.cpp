@@ -1,8 +1,8 @@
-#include "messages.hpp"
+#include "message.hpp"
 
 namespace loconet
 {
-	namespace message
+	namespace messages
 	{
 		Message::Message(opcode_t opc, size_t length)
 		{

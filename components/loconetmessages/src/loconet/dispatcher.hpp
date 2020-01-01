@@ -4,7 +4,7 @@
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 
-#include "message/message.hpp"
+#include "messages/message.hpp"
 #include "dispatchhandler.hpp"
 
 
@@ -25,7 +25,7 @@ namespace loconet
 		void add(DispatchHandler*);
 		void remove(DispatchHandler*);
 
-		BaseType_t enqueue(message::Message*);
+		BaseType_t enqueue(messages::Message*);
 
 		void task(void*);
 	}
