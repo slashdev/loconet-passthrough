@@ -14,33 +14,38 @@
 
 #include "session.hpp"
 
-class WebServer
+
+namespace communication
 {
-public:
-  WebServer();
-  WebServer(uint16_t port);
-  ~WebServer();
+  namespace httpd
+  {
+    class Server
+    {
+    public:
+      Server();
+      Server(uint16_t port);
+      ~Server();
 
-  // void add(UriHandler*);
-  // void remove(UriHandler*);
+      // void add(UriHandler*);
+      // void remove(UriHandler*);
 
-  esp_err_t start();
-  esp_err_t stop();
+      esp_err_t start();
+      esp_err_t stop();
 
-  void thread();
+      void thread();
 
-private:
-  // std::list<UriHandler*> handlers_;
-  sockaddr_in dest_addr_;
-  int socket_;
-  const char* TAG = "HTTPD";
+    private:
+      // std::list<UriHandler*> handlers_;
+      sockaddr_in dest_addr_;
+      int socket_;
+      const char* TAG = "HTTPD";
 
-	esp_err_t accept_process();
+      esp_err_t accept_process();
 
-  HttpSession* active_session_ = NULL;
-	// std::map<int, HttpSession*> sessions_;
-};
-
-
+      Session* active_session_ = NULL;
+      // std::map<int, HttpSession*> sessions_;
+    };
+  }
+}
 
 #endif

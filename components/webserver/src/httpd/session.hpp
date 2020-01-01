@@ -7,20 +7,27 @@
 #include "lwip/sockets.h"
 #include "lwip/sys.h"
 
-class HttpSession
+namespace communication
 {
-public:
-	HttpSession(int, sockaddr_in);
-	~HttpSession();
+  namespace httpd
+  {
 
-	void process();
+		class Session
+		{
+		public:
+			Session(int, sockaddr_in);
+			~Session();
 
-private:
-	int socket_ = -1;
-	sockaddr_in from_ = {};
+			void process();
 
-	const char* TAG = "HTTPD Session";
-};
+		private:
+			int socket_ = -1;
+			sockaddr_in from_ = {};
 
+			const char* TAG = "HTTPD Session";
+		};
+
+	}
+}
 
 #endif
