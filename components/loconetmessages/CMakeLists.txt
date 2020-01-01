@@ -4,6 +4,7 @@ set(COMPONENT_SRCS
 			"src/loconet/messages/busy.cpp"
 			"src/loconet/messages/inputreport.cpp"
 			"src/loconet/messages/parser.cpp"
+            "src/loconet/messages.cpp"
 			"src/loconet/receiver.cpp"
 			"src/loconet/dispatcher.cpp"
 )
