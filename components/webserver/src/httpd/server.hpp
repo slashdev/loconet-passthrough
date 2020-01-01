@@ -25,6 +25,8 @@
 #define HTTD_SERVER_MAX_REQUEST_LENGTH 512
 #endif
 
+#define HTTPD_SESSION_QUEUE_SIZE 5
+
 
 namespace httpd
 {
@@ -43,9 +45,6 @@ namespace httpd
     esp_err_t stop();
 
     esp_err_t thread();
-
-    esp_err_t process_sessions();
-    esp_err_t process_accept();
 
   private:
     sockaddr_in dest_addr_;

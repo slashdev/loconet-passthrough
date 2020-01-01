@@ -15,11 +15,6 @@
 
 #include "httpd/server.hpp"
 
-#include "wifisettings.h"
-
-<<<<<<< HEAD
-#include "httpd/server.hpp"
-
 #include "wifirequesthandler.hpp"
 
 #if __has_include("wifisettings.h")
@@ -46,13 +41,14 @@ void webserver_task(void* args)
   WifiRequestHandler* wifireqhandler = new WifiRequestHandler();
   webserver->add(wifireqhandler);
 
-  webserver->start();
-
   for(;;)
   {
     webserver->thread();
   }
 }
+
+extern "C"
+{
 
   void memory_usage(void * pvParameter)
   {
@@ -68,30 +64,31 @@ void webserver_task(void* args)
     }
   }
 
-    void app_main()
+  void app_main()
+  {
+
+    if (ret == ESP_ERR_NVS_NO_FREE_PAGES || ret == ESP_ERR_NVS_NEW_VERSION_FOUND)
     {
-        esp_err_t ret = nvs_flash_init();
-        if (ret == ESP_ERR_NVS_NO_FREE_PAGES || ret == ESP_ERR_NVS_NEW_VERSION_FOUND)
-        {
-            ESP_ERROR_CHECK(nvs_flash_erase());
-            ret = nvs_flash_init();
-        }
-        ESP_ERROR_CHECK(ret);
-
-        EventHandlers::init();
-
-        tcpip_adapter_init();
-
-        WifiConnector::ap()->ssid("sd_loconet");
-        WifiConnector::ap()->password("Aa123456");
-
-        WifiConnector::station()->ssid(DEFAULT_WIFI_SSID);
-        WifiConnector::station()->password(DEFAULT_WIFI_PASSWORD);
-
-        WifiConnector::start();
-
-        // Create a task for the webserver
-        xTaskCreate(webserver_task, "Web Server", 8000, NULL, 2, NULL);
-        xTaskCreate(memory_usage, "Memory printer", 4000, NULL, 2, NULL);
+        ESP_ERROR_CHECK(nvs_flash_erase());
+        ret = nvs_flash_init();
     }
+    ESP_ERROR_CHECK(ret);
+
+    EventHandlers::init();
+
+    tcpip_adapter_init();
+
+    WifiConnector::ap()->ssid("sd_loconet");
+    WifiConnector::ap()->password("Aa123456");
+
+    WifiConnector::station()->ssid(DEFAULT_WIFI_SSID);
+    WifiConnector::station()->password(DEFAULT_WIFI_PASSWORD);
+
+    WifiConnector::start();
+
+    // Create a task for the webserver
+    xTaskCreate(webserver_session_processing_task, "Web Server - session handling", 8000, NULL, 2, NULL);
+    xTaskCreate(webserver_accept_connections_task, "Web Server - accept connections", 8000, NULL, 2, NULL);
+    xTaskCreate(memory_usage, "Memory printer", 4000, NULL, 2, NULL);
+  }
 }
