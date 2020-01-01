@@ -13,10 +13,20 @@ namespace communication
 
     Server::~Server()
     {
-      if (active_session_ != NULL)
+      // TODO: If there are items on the queue, delete them all
+      if (uxQueueMessagesWaiting(sessionQueue_) > 0)
       {
-        delete active_session_;
+        Session* session;
+        BaseType_t xStatus;
+
+        xStatus = xQueueReceive( sessionQueue_, &session, 0 );
+        if (xStatus == pdPASS)
+        {
+          delete session;
+        }
       }
+
+      vQueueDelete(sessionQueue_);
     }
 
     Server::Server(uint16_t port)
@@ -25,6 +35,8 @@ namespace communication
       dest_addr_.sin_addr.s_addr = htonl(INADDR_ANY);
       dest_addr_.sin_family = AF_INET;
       dest_addr_.sin_port = htons(port);
+
+      sessionQueue_ = xQueueCreate(HTTPD_SESSION_QUEUE_SIZE, sizeof( Session * ) );
     }
 
 
@@ -71,32 +83,34 @@ namespace communication
       return ESP_OK;
     }
 
-    void Server::thread()
+    esp_err_t Server::process_session()
     {
       if (socket_ < 0)
       {
         ESP_LOGD("HTTPD", "NO SOCKET");
-        return;
+        return ESP_FAIL;
       }
-      // Accept a new connection
+      Session* session;
+      BaseType_t xStatus;
 
-      if (active_session_ != NULL)
+      xStatus = xQueueReceive( sessionQueue_, &session, 0 );
+      if (xStatus == pdPASS)
       {
-        active_session_->process();
-        delete active_session_;
+        session->process();
+        delete session;
       }
 
-      accept_process();
+      return ESP_OK;
     }
 
-
-    esp_err_t Server::accept_process()
+    esp_err_t Server::process_accept()
     {
       if (socket_ < 0)
       {
         ESP_LOGD(TAG, "NO SOCKET");
         return ESP_FAIL;
       }
+
       sockaddr_in addr_from;
       socklen_t addr_from_len = sizeof(addr_from);
       int new_fd = accept(socket_, (sockaddr *)&addr_from, &addr_from_len);
@@ -115,7 +129,9 @@ namespace communication
       // Snd the same time out for sending
       setsockopt(new_fd, SOL_SOCKET, SO_SNDTIMEO, (const char*)&tv, sizeof(tv));
 
-      active_session_ = new Session(new_fd, addr_from);
+      Session* session = new Session(new_fd, addr_from);
+
+      return xQueueSendToBack(sessionQueue_, (void *) &session, 0);
 
       return ESP_OK;
     }

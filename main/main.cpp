@@ -42,12 +42,23 @@ extern "C" {
         return EventHandlers::handle_event(ctx, event);
     }
 
-    void webserver_task(void* args)
+    void webserver_session_processing_task(void* args)
     {
-        TickType_t xDelay = pdMS_TO_TICKS( 500 );
+        TickType_t xDelay = pdMS_TO_TICKS( 100 );
         for(;;)
         {
-            webserver->thread();
+            webserver->process_session();
+            vTaskDelay(xDelay);
+        }
+
+    }
+
+    void webserver_accept_connections_task(void* args)
+    {
+        TickType_t xDelay = pdMS_TO_TICKS( 100 );
+        for(;;)
+        {
+            webserver->process_accept();
             vTaskDelay(xDelay);
         }
 
@@ -89,7 +100,8 @@ extern "C" {
         WifiSwitcher::start();
 
         // Create a task for the webserver
-        xTaskCreate(webserver_task, "Web Server", 8000, NULL, 2, NULL);
+        xTaskCreate(webserver_session_processing_task, "Web Server - session handling", 8000, NULL, 2, NULL);
+        xTaskCreate(webserver_accept_connections_task, "Web Server - accept connections", 8000, NULL, 2, NULL);
         xTaskCreate(memory_usage, "Memory printer", 4000, NULL, 2, NULL);
     }
 }

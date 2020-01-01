@@ -14,6 +14,8 @@
 
 #include "session.hpp"
 
+#define HTTPD_SESSION_QUEUE_SIZE 5
+
 
 namespace communication
 {
@@ -32,7 +34,8 @@ namespace communication
       esp_err_t start();
       esp_err_t stop();
 
-      void thread();
+      esp_err_t process_session();
+      esp_err_t process_accept();
 
     private:
       // std::list<UriHandler*> handlers_;
@@ -40,10 +43,9 @@ namespace communication
       int socket_;
       const char* TAG = "HTTPD";
 
-      esp_err_t accept_process();
 
-      Session* active_session_ = NULL;
-      // std::map<int, HttpSession*> sessions_;
+
+      QueueHandle_t sessionQueue_;
     };
   }
 }
