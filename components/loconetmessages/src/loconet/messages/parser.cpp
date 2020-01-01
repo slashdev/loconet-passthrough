@@ -34,10 +34,10 @@ namespace loconet
 
 			switch(data[0])
 			{
-				case BUSY:
+				case OPCode::BUSY:
 					msg = new Busy();
 					break;
-				case INPUT_REP:
+				case OPCode::INPUT_REP:
 					if (length == 4)
 					{
 						msg = new InputReport(data[1], data[2]);

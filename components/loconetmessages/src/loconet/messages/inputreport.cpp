@@ -5,7 +5,7 @@ namespace loconet
 {
 	namespace messages
 	{
-		InputReport::InputReport(uint16_t addr, bool ishigh) : Message(INPUT_REP, 4)
+		InputReport::InputReport(uint16_t addr, bool ishigh) : Message(OPCode::INPUT_REP, 4)
 		{
 			address(addr);
 			input(ishigh);
@@ -15,7 +15,7 @@ namespace loconet
 		{
 		}
 
-		InputReport::InputReport(uint8_t byte1, uint8_t byte2) : Message(INPUT_REP, 4)
+		InputReport::InputReport(uint8_t byte1, uint8_t byte2) : Message(OPCode::INPUT_REP, 4)
 		{
 			address(byte1, byte2);
 			input(byte2);
