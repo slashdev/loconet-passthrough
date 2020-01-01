@@ -1,4 +1,5 @@
 #include "message.hpp"
+#include "util.hpp"
 
 namespace loconet
 {
@@ -39,23 +40,10 @@ namespace loconet
 		{
 			if(data_[length_ - 1] == 0)
 			{
-				data_[length_ -1 ] = calculate_checksum();
+				data_[length_ -1 ] = calculate_checksum(data_, length_);
 			}
 
 			return data_[length_ -1];
 		}
-
-		uint8_t Message::calculate_checksum()
-		{
-			// calculate the checksum: XOR each byte with checksum
-			uint8_t checksum = 0xFF;
-			for(size_t i = 0 ; i < length_ - 1 ; i++)
-			{
-				checksum ^= data_[i];
-			}
-
-			return checksum;
-		}
-
 	}
 }
