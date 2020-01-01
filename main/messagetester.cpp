@@ -41,7 +41,7 @@ public:
   void handle_message(uint8_t* data, size_t length)
   {
     ESP_LOGI("DISPATCH", "I dispatch a message of %d bytes", length);
-    loconet::messages::Message* msg = loconet::messages::Parser::parse(data, length);
+    loconet::messages::Message* msg = loconet::messages::parse(data, length);
     if (msg == NULL)
     {
       ESP_LOGW("DISPATCH", "Wrong message type!");

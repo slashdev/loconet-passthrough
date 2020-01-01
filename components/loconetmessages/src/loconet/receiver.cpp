@@ -25,7 +25,7 @@ namespace loconet
 
 		BaseType_t enqueue(uint8_t *data, size_t length)
 		{
-			messages::Message* msg = loconet::messages::Parser::parse(data, length);
+			messages::Message* msg = loconet::messages::parse(data, length);
 
 			if (msg != NULL)
 			{
