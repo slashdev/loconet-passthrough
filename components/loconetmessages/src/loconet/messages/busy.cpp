@@ -4,7 +4,7 @@ namespace loconet
 {
 	namespace messages
 	{
-		Busy::Busy() : Message(BUSY, 2)
+		Busy::Busy() : Message(OPCode::BUSY, 2)
 		{
 		}
 	}

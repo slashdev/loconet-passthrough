@@ -4,7 +4,7 @@ namespace loconet
 {
 	namespace messages
 	{
-		Message::Message(eOPCode_t opc, size_t length)
+		Message::Message(OPCode::eOPCode_t opc, size_t length)
 		{
 			opcode_ = opc;
 			length_ = length;
@@ -17,7 +17,7 @@ namespace loconet
 			free(data_);
 		}
 
-		eOPCode_t Message::opcode()
+		OPCode::eOPCode_t Message::opcode()
 		{
 			return opcode_;
 		}
