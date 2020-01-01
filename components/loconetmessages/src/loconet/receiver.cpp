@@ -2,7 +2,7 @@
 
 #include "freertos/queue.h"
 
-#include "message/messages.hpp"
+#include "messages/parser.hpp"
 #include <list>
 
 namespace loconet
@@ -10,7 +10,7 @@ namespace loconet
 	namespace Receiver
 	{
 		std::list<InboundHandler*> handlers;
-		QueueHandle_t xQueue = xQueueCreate(LOCONET_RECEIVER_QUEUE_SIZE, sizeof( message::Message * ) );
+		QueueHandle_t xQueue = xQueueCreate(LOCONET_RECEIVER_QUEUE_SIZE, sizeof( messages::Message * ) );
 
 		void add(InboundHandler* handler)
 		{
@@ -25,7 +25,7 @@ namespace loconet
 
 		BaseType_t enqueue(uint8_t *data, size_t length)
 		{
-			message::Message* msg = loconet::message::parse(data, length);
+			messages::Message* msg = loconet::messages::Parser::parse(data, length);
 
 			if (msg != NULL)
 			{
@@ -43,7 +43,7 @@ namespace loconet
 
 			for(;;)
 			{
-				message::Message *msg;
+				messages::Message *msg;
 				xStatus = xQueueReceive( xQueue, &msg, 0 );
 	      if (xStatus == pdPASS)
 	      {

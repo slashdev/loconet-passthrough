@@ -3,7 +3,7 @@
 
 namespace loconet
 {
-	namespace message
+	namespace messages
 	{
 		InputReport::InputReport(uint16_t addr, bool ishigh) : Message(INPUT_REP, 4)
 		{

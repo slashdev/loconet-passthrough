@@ -5,7 +5,7 @@
 
 namespace loconet
 {
-	namespace message
+	namespace messages
 	{
 		class InputReport : public Message
 		{

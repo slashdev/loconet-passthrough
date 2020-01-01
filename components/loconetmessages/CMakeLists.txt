@@ -1,9 +1,9 @@
 set(COMPONENT_ADD_INCLUDEDIRS src)
 set(COMPONENT_SRCS
-			"src/loconet/message/message.cpp"
-			"src/loconet/message/busy.cpp"
-			"src/loconet/message/inputreport.cpp"
-			"src/loconet/message/parser.cpp"
+			"src/loconet/messages/message.cpp"
+			"src/loconet/messages/busy.cpp"
+			"src/loconet/messages/inputreport.cpp"
+			"src/loconet/messages/parser.cpp"
 			"src/loconet/receiver.cpp"
 			"src/loconet/dispatcher.cpp"
 )

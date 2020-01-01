@@ -6,7 +6,7 @@
 
 namespace loconet
 {
-	namespace message
+	namespace messages
 	{
 		class Busy : public Message
 		{

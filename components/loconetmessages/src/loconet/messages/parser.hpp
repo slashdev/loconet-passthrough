@@ -1,10 +1,11 @@
 #ifndef LOCONET_MESSAGE_PARSER_HPP_
 #define LOCONET_MESSAGE_PARSER_HPP_
 
+#include "../messages.hpp"
 
 namespace loconet
 {
-  namespace message
+  namespace messages
   {
     /**
      * Returns a string representation of the known OPCodes

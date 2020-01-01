@@ -20,7 +20,7 @@
 
 namespace loconet
 {
-	namespace message
+	namespace messages
 	{
 
 		typedef enum OPCODE : uint8_t

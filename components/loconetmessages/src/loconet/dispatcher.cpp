@@ -2,7 +2,7 @@
 
 #include "freertos/queue.h"
 
-#include "message/messages.hpp"
+#include "messages/message.hpp"
 #include <list>
 // for the memcpy
 #include <cstring>
@@ -36,7 +36,7 @@ namespace loconet
 			handlers.remove(handler);
 		}
 
-		BaseType_t enqueue(message::Message* msg)
+		BaseType_t enqueue(messages::Message* msg)
 		{
 			loconet_dispatcher_message_t *p = (loconet_dispatcher_message_t*) malloc (sizeof(loconet_dispatcher_message_t));
 			p->data = (uint8_t*) malloc(sizeof(uint8_t) * msg->length());
