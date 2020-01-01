@@ -7,19 +7,11 @@ namespace loconet
 {
   namespace messages
   {
-    /**
-     * Returns a string representation of the known OPCodes
+    /*
+     * Creates a message from a byte representation
+     * if parsing fails, NULL is returned.
      */
-    const char* to_str(opcode_t opc);
-
-    namespace Parser
-    {
-      /*
-       * Creates a message from a byte representation
-       * if parsing fails, NULL is returned.
-       */
-      Message* parse(uint8_t *, size_t);
-    }
+    Message* parse(uint8_t *, size_t);
   }
 }
 
