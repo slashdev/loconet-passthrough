@@ -12,12 +12,4 @@
 
 // all n-byte messages
 
-namespace loconet
-{
-  namespace messages
-  {
-    const char* to_str(opcode_t);
-  }
-}
-
 #endif

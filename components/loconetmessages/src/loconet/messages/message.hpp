@@ -56,7 +56,7 @@ namespace loconet
   			RD_SL_DATA   = 0xE7,
   			IMM_PACKET   = 0xED,
   			WR_SL_DATA   = 0xEF
-  	} opcode_t;
+  	} eOPCode_t;
 
 		class Message
 		{
@@ -89,7 +89,7 @@ namespace loconet
 			/*
 			 * Returns the opcode of a message
 			 */
-			opcode_t opcode();
+			eOPCode_t opcode();
 
 		protected:
 			/*
@@ -97,7 +97,7 @@ namespace loconet
 			 * As this is an abstract class, nobody is allowed to
 			 * create a generic message.
 			 */
-			Message(opcode_t, size_t);
+			Message(eOPCode_t, size_t);
 			/*
 			 * The complete internal representation of the message.
 			 * The first byte is the opcode, the last is the checksum
@@ -110,7 +110,7 @@ namespace loconet
 			size_t length_ = 2;
 
 		// private:
-			opcode_t opcode_;
+			eOPCode_t opcode_;
 		};
 	}
 }
