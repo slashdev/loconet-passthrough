@@ -13,8 +13,11 @@
 
 #include "wifi_connector.hpp"
 
+#include "httpd/server.hpp"
+
 #include "wifisettings.h"
 
+<<<<<<< HEAD
 #include "httpd/server.hpp"
 
 #include "wifirequesthandler.hpp"
@@ -22,7 +25,6 @@
 #if __has_include("wifisettings.h")
 #  include "wifisettings.h"
 #endif
-
 
 #ifndef DEFAULT_WIFI_SSID
 #define DEFAULT_WIFI_SSID "defaultSSID"
@@ -52,10 +54,6 @@ void webserver_task(void* args)
   }
 }
 
-extern "C" {
-
-<<<<<<< HEAD
-
   void memory_usage(void * pvParameter)
   {
     TickType_t xDelay = pdMS_TO_TICKS( 2000 );
@@ -70,7 +68,7 @@ extern "C" {
     }
   }
 
-  void app_main()
+    void app_main()
     {
         esp_err_t ret = nvs_flash_init();
         if (ret == ESP_ERR_NVS_NO_FREE_PAGES || ret == ESP_ERR_NVS_NEW_VERSION_FOUND)
@@ -91,5 +89,9 @@ extern "C" {
         WifiConnector::station()->password(DEFAULT_WIFI_PASSWORD);
 
         WifiConnector::start();
+
+        // Create a task for the webserver
+        xTaskCreate(webserver_task, "Web Server", 8000, NULL, 2, NULL);
+        xTaskCreate(memory_usage, "Memory printer", 4000, NULL, 2, NULL);
     }
 }
