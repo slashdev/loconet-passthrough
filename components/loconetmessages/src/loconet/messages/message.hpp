@@ -49,11 +49,6 @@ namespace loconet
 			uint8_t checksum();
 
 			/*
-			 * returns the calculated checksum
-			 */
-			uint8_t calculate_checksum();
-
-			/*
 			 * Returns the opcode of a message
 			 */
 			OPCode::eOPCode_t opcode();
