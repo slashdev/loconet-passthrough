@@ -14,7 +14,9 @@
 
 #include "session.hpp"
 
+#ifndef HTTPD_SESSION_QUEUE_SIZE
 #define HTTPD_SESSION_QUEUE_SIZE 5
+#endif
 
 
 namespace communication
