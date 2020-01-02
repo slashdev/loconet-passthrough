@@ -7,27 +7,28 @@
 #include "lwip/sockets.h"
 #include "lwip/sys.h"
 
-namespace communication
+#ifndef HTTD_SERVER_MAX_REQUEST_LENGTH
+#define HTTD_SERVER_MAX_REQUEST_LENGTH 512
+#endif
+
+namespace httpd
 {
-  namespace httpd
-  {
 
-		class Session
-		{
-		public:
-			Session(int, sockaddr_in);
-			~Session();
+	class Session
+	{
+	public:
+		Session(int, sockaddr_in);
+		~Session();
 
-			void process();
+		void process();
 
-		private:
-			int socket_ = -1;
-			sockaddr_in from_ = {};
+	private:
+		int socket_ = -1;
+		sockaddr_in from_ = {};
 
-			const char* TAG = "HTTPD Session";
-		};
+		const char* TAG = "HTTPD Session";
+	};
 
-	}
 }
 
 #endif

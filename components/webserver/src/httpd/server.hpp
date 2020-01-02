@@ -18,38 +18,39 @@
 #define HTTPD_SESSION_QUEUE_SIZE 5
 #endif
 
+#ifndef HTTD_SERVER_MAX_REQUEST_LENGTH
+#define HTTD_SERVER_MAX_REQUEST_LENGTH 512
+#endif
 
-namespace communication
+
+namespace httpd
 {
-  namespace httpd
+  class Server
   {
-    class Server
-    {
-    public:
-      Server();
-      Server(uint16_t port);
-      ~Server();
+  public:
+    Server();
+    Server(uint16_t port);
+    ~Server();
 
-      // void add(UriHandler*);
-      // void remove(UriHandler*);
+    // void add(UriHandler*);
+    // void remove(UriHandler*);
 
-      esp_err_t start();
-      esp_err_t stop();
+    esp_err_t start();
+    esp_err_t stop();
 
-      esp_err_t process_session();
-      esp_err_t process_accept();
+    esp_err_t process_session();
+    esp_err_t process_accept();
 
-    private:
-      // std::list<UriHandler*> handlers_;
-      sockaddr_in dest_addr_;
-      int socket_;
-      const char* TAG = "HTTPD";
+  private:
+    // std::list<UriHandler*> handlers_;
+    sockaddr_in dest_addr_;
+    int socket_;
+    const char* TAG = "HTTPD";
 
 
 
-      QueueHandle_t sessionQueue_;
-    };
-  }
+    QueueHandle_t sessionQueue_;
+  };
 }
 
 #endif

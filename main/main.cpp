@@ -29,7 +29,7 @@
 
 
 size_t before = 0;
-communication::httpd::Server* webserver = new communication::httpd::Server();
+httpd::Server* webserver = new httpd::Server();
 
 extern "C" {
 
