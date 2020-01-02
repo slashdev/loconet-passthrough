@@ -19,7 +19,7 @@ namespace httpd
 	{
 
 	public:
-		Request(char*, size_t);
+		Request(char*);
 		~Request();
 
 		method::eHTTPMethod_t method();
@@ -28,19 +28,17 @@ namespace httpd
 		std::string header(std::string);
 
 		std::string body();
-		std::string variable(std::string);
 
 	protected:
-		method::eHTTPMethod_t method_;
+		method::eHTTPMethod_t method_ = method::OTHER;
 		std::string uri_;
 		std::string body_;
 
 		std::unordered_map<std::string, std::string> headers_;
-//		std::unordered_map<std::string, std::string> variables_;
-		void parse_headers();
-
 		char* parse_method(char*);
 		char* parse_uri(char*);
+		char* parse_headers(char*);
+
 	};
 }
 

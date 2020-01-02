@@ -24,8 +24,6 @@ namespace httpd
     dest_addr_.sin_addr.s_addr = htonl(INADDR_ANY);
     dest_addr_.sin_family = AF_INET;
     dest_addr_.sin_port = htons(port);
-
-    // sessionQueue_ = xQueueCreate(HTTPD_SESSION_QUEUE_SIZE, sizeof( Session * ) );
   }
 
 
@@ -99,6 +97,7 @@ namespace httpd
       ESP_LOGD(TAG, "NO SOCKET");
       return ESP_FAIL;
     }
+
     // It's full, we don't accept any new
     if (sessions_.size() > HTTPD_SESSION_QUEUE_SIZE)
     {

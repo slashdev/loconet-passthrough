@@ -55,7 +55,7 @@ extern "C" {
 
     void webserver_accept_connections_task(void* args)
     {
-        TickType_t xDelay = pdMS_TO_TICKS( 100 );
+        TickType_t xDelay = pdMS_TO_TICKS( 500 );
         for(;;)
         {
             webserver->process_accept();

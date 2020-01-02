@@ -13,7 +13,8 @@ namespace httpd
 			DELETE ,
 			CONNECT,
 			OPTIONS,
-			TRACE
+			TRACE  ,
+			OTHER
 		} eHTTPMethod_t;
 
 	}

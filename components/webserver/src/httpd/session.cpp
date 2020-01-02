@@ -13,15 +13,15 @@ namespace httpd
 
 	Session::~Session()
 	{
-		ESP_LOGI(TAG, "Destructor called");
+		// ESP_LOGW(TAG, "I am being destroyed");
+		// Kill the request, currently crashing the tool...
+		if (request_ != NULL) delete request_;
+
 		if (socket_ > 0)
 		{
 			close(socket_);
 		}
 		from_ = {};
-
-		// Kill the request
-		if (request_ != NULL) delete request_;
 	}
 
 	Request* Session::request()
@@ -47,7 +47,7 @@ namespace httpd
 
 	 		ESP_LOGI(TAG, "I received: %s\n", buffer);
 
-	 		request_ = new Request(buffer, len);
+	 		request_ = new Request(buffer);
 	 		// Split the buffer into a header and the rest
 
 	 		const char* message = "HTTP/1.1 200 OK\nContent-Type: text/plain\nContent-Length: 12\n\nHello world!";
