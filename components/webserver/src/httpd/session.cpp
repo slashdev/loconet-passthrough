@@ -19,8 +19,15 @@ namespace httpd
 			close(socket_);
 		}
 		from_ = {};
+
+		// Kill the request
+		if (request_ != NULL) delete request_;
 	}
 
+	Request* Session::request()
+	{
+		return request_;
+	}
 
 	void Session::process()
 	{
@@ -38,6 +45,9 @@ namespace httpd
 	 		// We received a message! First terminate the string :-)
 	 		buffer[len] = 0;
 
+	 		ESP_LOGI(TAG, "I received: %s\n", buffer);
+
+	 		request_ = new Request(buffer, len);
 	 		// Split the buffer into a header and the rest
 
 	 		const char* message = "HTTP/1.1 200 OK\nContent-Type: text/plain\nContent-Length: 12\n\nHello world!";

@@ -66,7 +66,7 @@ extern "C" {
 
     void memory_usage(void * pvParameter)
     {
-        TickType_t xDelay = pdMS_TO_TICKS( 1000 );
+        TickType_t xDelay = pdMS_TO_TICKS( 2000 );
         for(;;)
         {
             size_t now = xPortGetFreeHeapSize();

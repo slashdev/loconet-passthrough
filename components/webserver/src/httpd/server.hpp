@@ -14,6 +14,8 @@
 
 #include "session.hpp"
 
+#include <list>
+
 #ifndef HTTPD_SESSION_QUEUE_SIZE
 #define HTTPD_SESSION_QUEUE_SIZE 5
 #endif
@@ -25,6 +27,7 @@
 
 namespace httpd
 {
+
   class Server
   {
   public:
@@ -47,9 +50,8 @@ namespace httpd
     int socket_;
     const char* TAG = "HTTPD";
 
-
-
-    QueueHandle_t sessionQueue_;
+    std::list<Session*> sessions_;
+    // QueueHandle_t sessionQueue_;
   };
 }
 

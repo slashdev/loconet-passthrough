@@ -11,20 +11,11 @@ namespace httpd
 
   Server::~Server()
   {
-    // TODO: If there are items on the queue, delete them all
-    if (uxQueueMessagesWaiting(sessionQueue_) > 0)
+    for(auto &session: sessions_)
     {
-      Session* session;
-      BaseType_t xStatus;
-
-      xStatus = xQueueReceive( sessionQueue_, &session, 0 );
-      if (xStatus == pdPASS)
-      {
-        delete session;
-      }
+      delete session;
     }
-
-    vQueueDelete(sessionQueue_);
+    sessions_.clear();
   }
 
   Server::Server(uint16_t port)
@@ -34,7 +25,7 @@ namespace httpd
     dest_addr_.sin_family = AF_INET;
     dest_addr_.sin_port = htons(port);
 
-    sessionQueue_ = xQueueCreate(HTTPD_SESSION_QUEUE_SIZE, sizeof( Session * ) );
+    // sessionQueue_ = xQueueCreate(HTTPD_SESSION_QUEUE_SIZE, sizeof( Session * ) );
   }
 
 
@@ -88,12 +79,12 @@ namespace httpd
       ESP_LOGD("HTTPD", "NO SOCKET");
       return ESP_FAIL;
     }
-    Session* session;
-    BaseType_t xStatus;
 
-    xStatus = xQueueReceive( sessionQueue_, &session, 0 );
-    if (xStatus == pdPASS)
+    if (!sessions_.empty())
     {
+      Session* session = sessions_.front();
+      sessions_.pop_front();
+
       session->process();
       delete session;
     }
@@ -107,6 +98,11 @@ namespace httpd
     {
       ESP_LOGD(TAG, "NO SOCKET");
       return ESP_FAIL;
+    }
+    // It's full, we don't accept any new
+    if (sessions_.size() > HTTPD_SESSION_QUEUE_SIZE)
+    {
+      return ESP_OK;
     }
 
     sockaddr_in addr_from;
@@ -129,7 +125,7 @@ namespace httpd
 
     Session* session = new Session(new_fd, addr_from);
 
-    return xQueueSendToBack(sessionQueue_, (void *) &session, 0);
+    sessions_.push_back(session);
 
     return ESP_OK;
   }

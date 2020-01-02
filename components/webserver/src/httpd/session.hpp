@@ -7,6 +7,8 @@
 #include "lwip/sockets.h"
 #include "lwip/sys.h"
 
+#include "request.hpp"
+
 #ifndef HTTD_SERVER_MAX_REQUEST_LENGTH
 #define HTTD_SERVER_MAX_REQUEST_LENGTH 512
 #endif
@@ -22,9 +24,13 @@ namespace httpd
 
 		void process();
 
+		Request* request();
+
 	private:
 		int socket_ = -1;
 		sockaddr_in from_ = {};
+
+		Request* request_;
 
 		const char* TAG = "HTTPD Session";
 	};
