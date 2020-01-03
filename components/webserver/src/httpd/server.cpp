@@ -11,6 +11,8 @@ namespace httpd
 
   Server::~Server()
   {
+    handlers_.clear();
+
     for(auto &session: sessions_)
     {
       delete session;
@@ -26,6 +28,15 @@ namespace httpd
     dest_addr_.sin_port = htons(port);
   }
 
+  void Server::add(URIHandler* handler)
+  {
+    handlers_.push_back(handler);
+  }
+
+  void Server::remove(URIHandler* handler)
+  {
+    handlers_.remove(handler);
+  }
 
   esp_err_t Server::stop()
   {
@@ -78,12 +89,27 @@ namespace httpd
       return ESP_FAIL;
     }
 
-    if (!sessions_.empty())
+    while (!sessions_.empty())
     {
       Session* session = sessions_.front();
       sessions_.pop_front();
 
-      session->process();
+      bool handled = false;
+      for(auto &handler: handlers_)
+      {
+        if (handler->accept(session->request()))
+        {
+          handler->handle(session->request(), session->response());
+          handled = true;
+          break;
+        }
+      }
+      if (!handled)
+      {
+        // Set the error to 404 or NOT IMPLEMENTED
+      }
+      session->reply();
+
       delete session;
     }
 

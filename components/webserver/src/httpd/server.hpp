@@ -10,9 +10,11 @@
 #include "lwip/sys.h"
 
 #include <list>
-#include <map>
+#include <unordered_map>
 
 #include "session.hpp"
+#include "urihandler.hpp"
+#include "baseclass.hpp"
 
 #include <list>
 
@@ -28,15 +30,15 @@
 namespace httpd
 {
 
-  class Server
+  class Server : public BaseClass
   {
   public:
     Server();
     Server(uint16_t port);
     ~Server();
 
-    // void add(UriHandler*);
-    // void remove(UriHandler*);
+    void add(URIHandler*);
+    void remove(URIHandler*);
 
     esp_err_t start();
     esp_err_t stop();
@@ -45,13 +47,14 @@ namespace httpd
     esp_err_t process_accept();
 
   private:
-    // std::list<UriHandler*> handlers_;
     sockaddr_in dest_addr_;
     int socket_;
     const char* TAG = "HTTPD";
 
+    std::list<URIHandler*> handlers_;
+    // std::unordered_map<int, Session*> sessions_;
     std::list<Session*> sessions_;
-    // QueueHandle_t sessionQueue_;
+
   };
 }
 
