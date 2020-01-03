@@ -35,16 +35,9 @@ void webserver_task(void* args)
     httpd::Server* webserver = new httpd::Server();
     webserver->start();
 
-    TickType_t xDelay = pdMS_TO_TICKS( 100 );
     for(;;)
     {
-        webserver->process_sessions();
-        // This delay should be at least
-        // 100 ms, since otherwise it is crashing
-        // on the aceept() method of the socket.
-        vTaskDelay(xDelay);
-        webserver->process_accept();
-        // vTaskDelay(xDelay);
+        webserver->thread();
     }
 }
 
@@ -54,7 +47,7 @@ extern "C" {
     {
         if (event->event_id == SYSTEM_EVENT_STA_GOT_IP || event->event_id == SYSTEM_EVENT_AP_START)
         {
-            xTaskCreate(webserver_task, "Web Server - session handling", 16000, NULL, 2, NULL);
+            xTaskCreatePinnedToCore(webserver_task, "Web Server - session handling", 16000, NULL, 2, NULL, 0);
         }
         return EventHandlers::handle_event(ctx, event);
     }

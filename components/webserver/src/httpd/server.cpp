@@ -180,4 +180,11 @@ namespace httpd
     return ESP_OK;
   }
 
+  esp_err_t Server::thread()
+  {
+    process_sessions();
+    process_accept();
+    return ESP_OK;
+  }
+
 }

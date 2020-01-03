@@ -43,6 +43,8 @@ namespace httpd
     esp_err_t start();
     esp_err_t stop();
 
+    esp_err_t thread();
+
     esp_err_t process_sessions();
     esp_err_t process_accept();
 
