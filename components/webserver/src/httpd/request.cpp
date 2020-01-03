@@ -22,6 +22,11 @@ namespace httpd
 		if (cursor == data)
 		{
 			// Not a proper method!
+      method_ = method::OTHER;
+      uri_ = "";
+
+      ESP_LOGW("Request", "Error while parsing '%s'", data);
+
 			return;
 		}
 

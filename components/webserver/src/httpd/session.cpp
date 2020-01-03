@@ -55,7 +55,7 @@ namespace httpd
 	 		// We received a message! First terminate the string :-)
 	 		buffer[len] = 0;
 
-	 		ESP_LOGI(TAG, "I received: \n%s", buffer);
+	 		// ESP_LOGI(TAG, "I received: \n%s", buffer);
 
 	 		request_ = new Request(buffer);
 
@@ -81,7 +81,7 @@ namespace httpd
 		}
 		std::string message = response_->message();
 
-		ESP_LOGI(TAG, "Sending message:\n%s", message.c_str());
+		// ESP_LOGI(TAG, "Sending message:\n%s", message.c_str());
 
     int err = send(socket_, message.c_str(), message.length(), 0);
 
