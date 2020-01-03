@@ -93,8 +93,6 @@ namespace httpd
       Session* session = sessions_.front();
       sessions_.pop_front();
 
-      session->request()->log();
-
       bool handled = false;
       for(auto &handler: handlers_)
       {
@@ -124,7 +122,7 @@ namespace httpd
         }
         session->response()->construct_default_message(
             "method: " + Request::method_to_str(session->request()->method())
-            + " not allowed for URI: " + session->request()->uri()
+            + " not possible on URI: " + session->request()->uri()
         );
       }
       session->reply();

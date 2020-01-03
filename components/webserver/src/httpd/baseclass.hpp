@@ -9,6 +9,7 @@ namespace httpd
   class BaseClass
   {
   public:
+/*
     void *operator new(size_t size)
     {
       ESP_LOGI("BASECLASS", "Constructor called");
@@ -20,6 +21,7 @@ namespace httpd
       ESP_LOGI("BASECLASS", "Destructor called");
       free(p);
     }
+*/
   };
 
 }
