@@ -15,7 +15,9 @@
 
 #include "httpd/server.hpp"
 
-#include "wifisettings.h"
+#if __has_include("wifisettings.h")
+#  include "wifisettings.h"
+#endif
 
 
 #ifndef DEFAULT_WIFI_SSID
