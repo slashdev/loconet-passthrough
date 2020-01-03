@@ -39,6 +39,16 @@ namespace httpd
 		return response_;
 	}
 
+	int Session::socket()
+	{
+		return socket_;
+	}
+
+	bool Session::valid()
+	{
+		return valid_;
+	}
+
 	void Session::process()
 	{
 		if (socket_ < 0)
@@ -55,12 +65,19 @@ namespace httpd
 	 		// We received a message! First terminate the string :-)
 	 		buffer[len] = 0;
 
+	 		ESP_LOGI(TAG, "I received %d bytes", len);
 	 		// ESP_LOGI(TAG, "I received: \n%s", buffer);
 
 	 		request_ = new Request(buffer);
 
 	 		// Split the buffer into a header and the rest
 	 		response_ = new Response();
+
+	 		valid_ = true;
+	 	}
+	 	else
+	 	{
+	 		valid_ = false;
 	 	}
 	}
 
@@ -72,12 +89,9 @@ namespace httpd
 			return;
 		}
 
-		// const char* message = "HTTP/1.1 200 OK\nContent-Type: text/plain\nContent-Length: 12\n\nHello world!";
 		if (response_ == NULL)
 		{
-			response_ = new Response();
-			response_->status(status::NOT_FOUND);
-			response_->body(Response::response_phrase(status::NOT_FOUND));
+			ESP_LOGI(TAG, "Response is NULL, cannot send it");
 		}
 		std::string message = response_->message();
 

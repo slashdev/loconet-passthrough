@@ -81,7 +81,7 @@ namespace httpd
     msg += "Content-Length: " + std::to_string(body_.length());
     msg += "\r\n\r\n";
 
-    ESP_LOGI("Request", "body: %s", body_.c_str());
+    // ESP_LOGI("Request", "body: %s", body_.c_str());
 
     if (!body_.empty()) msg += body_;
 

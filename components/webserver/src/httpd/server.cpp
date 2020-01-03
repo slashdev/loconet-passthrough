@@ -12,9 +12,9 @@ namespace httpd
   {
     handlers_.clear();
 
-    for(auto &session: sessions_)
+    for(auto &s: sessions_)
     {
-      delete session;
+      delete s;
     }
     sessions_.clear();
   }
@@ -84,14 +84,20 @@ namespace httpd
   {
     if (socket_ < 0)
     {
-      ESP_LOGD("HTTPD", "NO SOCKET");
+      ESP_LOGE(TAG, "NO SOCKET");
       return ESP_FAIL;
     }
 
-    while (!sessions_.empty())
+    // ESP_LOGI(TAG, "On the stack: %d", sessions_.size());
+
+    while(!sessions_.empty())
     {
       Session* session = sessions_.front();
       sessions_.pop_front();
+
+      // ESP_LOGI(TAG, "Working on session: %d", session->socket());
+
+      // session->process();
 
       bool handled = false;
       for(auto &handler: handlers_)
@@ -125,8 +131,8 @@ namespace httpd
             + " not possible on URI: " + session->request()->uri()
         );
       }
-      session->reply();
 
+      session->reply();
       delete session;
     }
 
@@ -148,34 +154,38 @@ namespace httpd
       return ESP_OK;
     }
 
-    // We need a delay here, which is now caused by
-    // This logging, otherwise, accept fails.
-    // printf("HTTPD Server will accept new connection");
-    ESP_LOGI(TAG, "accept new connection");
-
+    // ESP_LOGI(TAG, "accept new connection");
+    // ESP_LOGI(TAG, "Sessions on the stack: %d", sessions_.size());
     sockaddr_in addr_from;
     socklen_t addr_from_len = sizeof(addr_from);
 
     // THIS LINE FAILS
-    int new_fd = accept(socket_, (sockaddr *)&addr_from, &addr_from_len);
+    int conn = accept(socket_, (sockaddr *)&addr_from, &addr_from_len);
 
-    if (new_fd < 0) {
-      ESP_LOGW(TAG, "Error in accept (%d)", new_fd);
+    if (conn < 0) {
+      ESP_LOGW(TAG, "Error in accept (%d)", conn);
       return ESP_FAIL;
     }
-    ESP_LOGD(TAG, "newfd = %d", new_fd);
+    // ESP_LOGI(TAG, "newfd = %d", conn);
 
     timeval tv;
     // Set recv timeout of this fd
     tv.tv_sec = 5;
     tv.tv_usec = 0;
-    setsockopt(new_fd, SOL_SOCKET, SO_RCVTIMEO, (const char*)&tv, sizeof(tv));
+    setsockopt(conn, SOL_SOCKET, SO_RCVTIMEO, (const char*)&tv, sizeof(tv));
     // Snd the same time out for sending
-    setsockopt(new_fd, SOL_SOCKET, SO_SNDTIMEO, (const char*)&tv, sizeof(tv));
+    setsockopt(conn, SOL_SOCKET, SO_SNDTIMEO, (const char*)&tv, sizeof(tv));
 
-    Session* session = new Session(new_fd, addr_from);
+    Session* session = new Session(conn, addr_from);
 
-    sessions_.push_back(session);
+    if (session->valid())
+    {
+      sessions_.push_back(session);
+    }
+    else
+    {
+      delete session;
+    }
 
     return ESP_OK;
   }

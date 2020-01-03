@@ -11,24 +11,19 @@ namespace httpd
 	{
 		// ESP_LOGW("Request", "I am being destroyed");
 	}
+
 	// NOTE This function expects a 0-terminated String!
 	Request::Request(char *data)
 	{
+
+    method_ = method::OTHER;
+    uri_ = "";
+
 		char *cursor = data;
 
 		// Parse the method
 		cursor = parse_method(cursor);
 		// ESP_LOGI("Request", "I have method: '%s'", std::string(data, cursor).c_str());
-		if (cursor == data)
-		{
-			// Not a proper method!
-      method_ = method::OTHER;
-      uri_ = "";
-
-      ESP_LOGW("Request", "Error while parsing '%s'", data);
-
-			return;
-		}
 
 		// Parse the URI
 		cursor = parse_uri(cursor);

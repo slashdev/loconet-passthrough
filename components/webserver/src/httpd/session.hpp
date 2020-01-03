@@ -24,19 +24,24 @@ namespace httpd
 		Session(int, sockaddr_in);
 		~Session();
 
+		int socket();
+
 		Request* request();
 		Response* response();
 
 		void reply();
 
+		bool valid();
+
 	private:
 		void process();
 
+		bool valid_ = false;
 		int socket_ = -1;
 		sockaddr_in from_ = {};
 
-		Request* request_;
-		Response* response_;
+		Request* request_ = NULL;
+		Response* response_ = NULL;
 
 		const char* TAG = "HTTPD Session";
 	};
