@@ -11,7 +11,7 @@
 
 #include "event_handlers.hpp"
 
-#include "wifi_connector.hpp"
+#include "wifiswitcher.hpp"
 
 #include "httpd/server.hpp"
 
@@ -20,6 +20,7 @@
 #if __has_include("wifisettings.h")
 #  include "wifisettings.h"
 #endif
+
 
 #ifndef DEFAULT_WIFI_SSID
 #define DEFAULT_WIFI_SSID "defaultSSID"
@@ -41,14 +42,35 @@ void webserver_task(void* args)
   WifiRequestHandler* wifireqhandler = new WifiRequestHandler();
   webserver->add(wifireqhandler);
 
+  webserver->start();
+
   for(;;)
   {
     webserver->thread();
   }
 }
 
-extern "C"
-{
+extern "C" {
+
+  static esp_err_t handle_event(void *ctx, system_event_t *event)
+  {
+    if (event->event_id == SYSTEM_EVENT_STA_GOT_IP || event->event_id == SYSTEM_EVENT_AP_START)
+    {
+      if (webserverTaskHandler == NULL)
+      {
+        xTaskCreatePinnedToCore(webserver_task, "Web Server - session handling", 16000, webserverTaskHandler, 2, NULL, 0);
+      }
+      else
+      {
+        vTaskResume(webserverTaskHandler);
+      }
+    }
+    if (event->event_id == SYSTEM_EVENT_STA_DISCONNECTED || event->event_id == SYSTEM_EVENT_AP_STOP)
+    {
+      if (webserverTaskHandler != NULL) vTaskSuspend(webserverTaskHandler);
+    }
+    return EventHandlers::handle_event(ctx, event);
+  }
 
   void memory_usage(void * pvParameter)
   {
@@ -66,7 +88,9 @@ extern "C"
 
   void app_main()
   {
+    tcpip_adapter_init();
 
+    esp_err_t ret = nvs_flash_init();
     if (ret == ESP_ERR_NVS_NO_FREE_PAGES || ret == ESP_ERR_NVS_NEW_VERSION_FOUND)
     {
         ESP_ERROR_CHECK(nvs_flash_erase());
@@ -74,21 +98,23 @@ extern "C"
     }
     ESP_ERROR_CHECK(ret);
 
-    EventHandlers::init();
+    ESP_ERROR_CHECK(esp_event_loop_init(handle_event, NULL) );
 
-    tcpip_adapter_init();
 
-    WifiConnector::ap()->ssid("sd_loconet");
-    WifiConnector::ap()->password("Aa123456");
+    WifiSwitcher::ap()->set_ssid("sd_loconet");
+    WifiSwitcher::ap()->set_password("Aa123456");
 
-    WifiConnector::station()->ssid(DEFAULT_WIFI_SSID);
-    WifiConnector::station()->password(DEFAULT_WIFI_PASSWORD);
+    WifiSwitcher::station()->set_ssid(DEFAULT_WIFI_SSID);
+    WifiSwitcher::station()->set_password(DEFAULT_WIFI_PASSWORD);
 
-    WifiConnector::start();
+    WifiSwitcher::start();
 
     // Create a task for the webserver
-    xTaskCreate(webserver_session_processing_task, "Web Server - session handling", 8000, NULL, 2, NULL);
-    xTaskCreate(webserver_accept_connections_task, "Web Server - accept connections", 8000, NULL, 2, NULL);
+    // And directly suspend it
+    // vTaskSuspend(webserverTaskHandler);
+    // xTaskCreate(webserver_task, "Web Server - session handling", 16000, NULL, 2, NULL);
+    // xTaskCreate(webserver_session_processing_task, "Web Server - session handling", 16000, NULL, 2, NULL);
+    // xTaskCreate(webserver_accept_connections_task, "Web Server - accept connections", 8000, NULL, 2, NULL);
     xTaskCreate(memory_usage, "Memory printer", 4000, NULL, 2, NULL);
   }
 }
