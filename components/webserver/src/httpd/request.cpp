@@ -55,17 +55,25 @@ namespace httpd
 
 	std::string Request::uri()
 	{
-		return "";
+		return uri_;
 	}
 
-	std::string Request::header(std::string)
+	std::string Request::header(std::string key)
 	{
-		return "";
+		auto item = headers_.find(key);
+		if(item == headers_.end())
+		{
+			return "";
+		}
+		else
+		{
+			return item->second;
+		}
 	}
 
 	std::string Request::body()
 	{
-		return "";
+		return body_;
 	}
 
 	char* Request::parse_method(char* cursor)
@@ -83,26 +91,26 @@ namespace httpd
 
 		if (count == 3)
 		{
-			if      (std::strncmp(cursor, "GET", 3)) method_ = method::GET;
-			else if (std::strncmp(cursor, "PUT", 3)) method_ = method::PUT;
+			if      (0 == std::strncmp(cursor, "GET", 3)) method_ = method::GET;
+			else if (0 == std::strncmp(cursor, "PUT", 3)) method_ = method::PUT;
 		}
 		else if (count == 4)
 		{
-			if      (std::strncmp(cursor, "POST", 4)) method_ = method::POST;
-			else if (std::strncmp(cursor, "HEAD", 4)) method_ = method::HEAD;
+			if      (0 == std::strncmp(cursor, "POST", 4)) method_ = method::POST;
+			else if (0 == std::strncmp(cursor, "HEAD", 4)) method_ = method::HEAD;
 		}
 		else if (count == 5)
 		{
-			if      (std::strncmp(cursor, "TRACE", 5)) method_ = method::TRACE;
+			if      (0 == std::strncmp(cursor, "TRACE", 5)) method_ = method::TRACE;
 		}
 		else if (count == 6)
 		{
-			if      (std::strncmp(cursor, "DELETE", 6)) method_ = method::DELETE;
+			if      (0 == std::strncmp(cursor, "DELETE", 6)) method_ = method::DELETE;
 		}
 		else if (count == 7)
 		{
-			if      (std::strncmp(cursor, "CONNECT", 7)) method_ = method::CONNECT;
-			else if (std::strncmp(cursor, "OPTIONS", 7)) method_ = method::OPTIONS;
+			if      (0 == std::strncmp(cursor, "CONNECT", 7)) method_ = method::CONNECT;
+			else if (0 == std::strncmp(cursor, "OPTIONS", 7)) method_ = method::OPTIONS;
 		}
 
 		return end;
@@ -113,6 +121,7 @@ namespace httpd
 		// first remove trailing spaces
 		char *begin = data;
 		while (*begin && *begin == ' ') begin++;
+
 		char* end = begin;
 		while(*end && *end != ' ') end++;
 
@@ -156,5 +165,43 @@ namespace httpd
 
 		return var;
 	}
+
+  void Request::log()
+  {
+    ESP_LOGI("Request", "Method: %s", Request::method_to_str(method()).c_str());
+    ESP_LOGI("Request", "URI   : %s", uri().c_str());
+    for(auto &h : headers_)
+    {
+    	ESP_LOGI("Request", "h: '%s': '%s'", h.first.c_str(), h.second.c_str());
+    }
+		ESP_LOGI("Request", "body  : %s", body().c_str());
+  }
+
+  std::string Request::method_to_str(method::eHTTPMethod_t code)
+  {
+    switch(code)
+    {
+      case method::GET:
+        return "GET";
+      case method::HEAD:
+        return "HEAD";
+      case method::POST:
+        return "POST";
+      case method::PUT:
+        return "PUT";
+      case method::DELETE:
+        return "DELETE";
+      case method::CONNECT:
+        return "CONNECT";
+      case method::OPTIONS:
+        return "OPTIONS";
+      case method::TRACE:
+        return "TRACE";
+      case method::OTHER:
+        return "OTHER";
+    }
+    return "";
+  }
+
 }
 

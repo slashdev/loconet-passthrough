@@ -1,7 +1,6 @@
 #include "server.hpp"
 #include "esp_log.h"
 
-
 namespace httpd
 {
 
@@ -94,6 +93,8 @@ namespace httpd
       Session* session = sessions_.front();
       sessions_.pop_front();
 
+      session->request()->log();
+
       bool handled = false;
       for(auto &handler: handlers_)
       {
@@ -107,6 +108,24 @@ namespace httpd
       if (!handled)
       {
         // Set the error to 404 or NOT IMPLEMENTED
+        switch(session->request()->method())
+        {
+          case method::GET:
+          case method::HEAD:
+          case method::POST:
+            session->response()->status(status::NOT_FOUND);
+            break;
+          case method::OTHER:
+            session->response()->status(status::NOT_IMPLEMENTED);
+            break;
+          default:
+            session->response()->status(status::METHOD_NOT_ALLOWED);
+            break;
+        }
+        session->response()->construct_default_message(
+            "method: " + Request::method_to_str(session->request()->method())
+            + " not allowed for URI: " + session->request()->uri()
+        );
       }
       session->reply();
 
@@ -162,6 +181,5 @@ namespace httpd
 
     return ESP_OK;
   }
-
 
 }

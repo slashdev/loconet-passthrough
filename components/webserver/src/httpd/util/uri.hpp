@@ -1,5 +1,5 @@
 #ifndef HTTPD_UTIL_URI_HPP_
-#define HTTPD_UTIL_URI_HPP_
+#define HTTPD_UTIL_URI_HPP_ 1
 
 #include <string>
 #include <unordered_map>

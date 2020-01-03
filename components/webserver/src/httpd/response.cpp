@@ -89,6 +89,22 @@ namespace httpd
     // return msg.c_str();
   }
 
+  void Response::construct_default_message(std::string msg)
+  {
+    std::string error = std::to_string(status());
+    error += " - ";
+    error += Response::response_phrase(status());
+
+    body_ = std::string("<html><head><title>");
+    body_ += error;
+    body_ += "</title></head><body><h1>";
+    body_ += error;
+    body_ += "</h1>";
+    body_ += msg;
+    body_ += "</body></html>";
+
+    header("Content-Type", "text/html");
+  }
 
   const char* Response::response_phrase(status::eStatus_t code)
   {

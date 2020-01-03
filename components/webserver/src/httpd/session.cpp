@@ -58,6 +58,8 @@ namespace httpd
 	 		ESP_LOGI(TAG, "I received: \n%s", buffer);
 
 	 		request_ = new Request(buffer);
+
+	 		request_->log();
 	 		// Split the buffer into a header and the rest
 	 		response_ = new Response();
 	 	}

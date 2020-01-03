@@ -31,6 +31,9 @@ namespace httpd
 
 		std::string body();
 
+		void log();
+
+		static std::string method_to_str(method::eHTTPMethod_t);
 	protected:
 		method::eHTTPMethod_t method_ = method::OTHER;
 		std::string uri_;
