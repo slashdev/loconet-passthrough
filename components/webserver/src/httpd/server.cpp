@@ -81,7 +81,7 @@ namespace httpd
     return ESP_OK;
   }
 
-  esp_err_t Server::process_session()
+  esp_err_t Server::process_sessions()
   {
     if (socket_ < 0)
     {
@@ -127,11 +127,19 @@ namespace httpd
     // It's full, we don't accept any new
     if (sessions_.size() > HTTPD_SESSION_QUEUE_SIZE)
     {
+      ESP_LOGW(TAG, "sessions full");
       return ESP_OK;
     }
 
+    // We need a delay here, which is now caused by
+    // This logging, otherwise, accept fails.
+    // printf("HTTPD Server will accept new connection");
+    ESP_LOGI(TAG, "accept new connection");
+
     sockaddr_in addr_from;
     socklen_t addr_from_len = sizeof(addr_from);
+
+    // THIS LINE FAILS
     int new_fd = accept(socket_, (sockaddr *)&addr_from, &addr_from_len);
 
     if (new_fd < 0) {
