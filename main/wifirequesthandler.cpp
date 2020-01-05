@@ -4,6 +4,7 @@
 #include <string>
 #include <unordered_map>
 #include "tcpip_adapter.h"
+#include "esp_log.h"
 
 #include "wifiswitcher.hpp"
 #include "httpd/util/uri.hpp"
@@ -54,19 +55,25 @@ void WifiRequestHandler::handle(httpd::Request* request, httpd::Response* respon
     // TODO!
     std::unordered_map<std::string, std::string> vars = httpd::uri::parse_query_string(request->body());
 
+    std::string ssid;
+    std::string password;
 
     if ( (vars.find("ssid") != vars.end()) && (vars["ssid"].length() < 32) )
     {
       // WifiSwitcher::station()->ssid(vars["ssid"]);
+      ssid = vars["ssid"];
     }
 
     if ( (vars.find("ssid") != vars.end()) && (vars["ssid"].length() < 32) )
     {
+      password = vars["password"];
       // WifiSwitcher::station()->password(vars["ssid"]);
     }
 
+    ESP_LOGI("WifiRH", "New settings: SSID: '%s', PW: '%s'", ssid.c_str(), password.c_str());
+
     response->status(httpd::status::OK);
-    response->header("Location", "/wifi");
-    // response->body(body);
+    std::string body = "<html><head><meta http-equiv=\"refresh\" content=\"10; url=/wifi\" /></head><body>The Wifi is being reset</html>";
+    response->body(body);
   }
 }
