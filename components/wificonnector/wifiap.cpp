@@ -1,4 +1,5 @@
 #include "wifiap.hpp"
+#include "event_handlers.hpp"
 
 WifiAP::WifiAP()
 {
@@ -10,14 +11,16 @@ WifiAP::WifiAP()
   this->set_authmode(WIFI_AUTH_WPA_WPA2_PSK);
   this->set_max_connections(4);
   this->set_channel(0);
+
+  EventHandlers::add(WIFI_EVENT, this);
 }
-  
+
 void WifiAP::set_ssid(std::string ssid)
 {
   if (ssid.length() < 32) {
     std::copy(ssid.begin(), ssid.end(), cfg_ap_.ap.ssid);
     ssid_ = ssid;
-  } 
+  }
   else
   {
     ssid_ = "";
@@ -48,7 +51,7 @@ void WifiAP::set_max_connections(uint8_t connections)
 
 void WifiAP::connect()
 {
-  ESP_ERROR_CHECK(esp_wifi_init(&cfg_)); 
+  ESP_ERROR_CHECK(esp_wifi_init(&cfg_));
 
   ESP_ERROR_CHECK(esp_wifi_set_mode(WIFI_MODE_AP));
   ESP_ERROR_CHECK(esp_wifi_set_config(ESP_IF_WIFI_AP, &cfg_ap_) );
@@ -56,16 +59,21 @@ void WifiAP::connect()
   ESP_ERROR_CHECK(esp_wifi_start() );
 }
 
-esp_err_t WifiAP::handle_event(void *ctx, system_event_t *event)
+void WifiAP::handle_event(esp_event_base_t base, int32_t event, void *data)
 {
-  switch(event->event_id)
+  if (base == WIFI_EVENT)
   {
-    // We become an AP
-    case SYSTEM_EVENT_AP_START:
-      connected_ = true;
-      break;
-    default:
-      break;
+    switch(event)
+    {
+      // We become an AP
+      case WIFI_EVENT_AP_START:
+        connected_ = true;
+        break;
+      case WIFI_EVENT_AP_STOP:
+        connected_ = false;
+        break;
+      default:
+        break;
+    }
   }
-  return ESP_OK;
 }

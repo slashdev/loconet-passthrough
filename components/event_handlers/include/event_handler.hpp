@@ -11,7 +11,7 @@
 class EventHandler
 {
 public:
-  virtual esp_err_t handle_event(void *, system_event_t*)=0;
+  virtual void handle_event(esp_event_base_t base, int32_t event_id, void* data)=0;
 };
 
 #endif // EVENT_HANDLER_HPP
