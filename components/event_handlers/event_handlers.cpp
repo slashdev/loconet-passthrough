@@ -24,16 +24,14 @@ namespace EventHandlers
 
   void handle_event(void* arg, esp_event_base_t base, int32_t id,  void* data)
   {
-    for(auto &handler : genericHandlers)
+    for(const auto &handler : genericHandlers)
     {
       handler->handle_event(base, id, data);
     }
-    if (handlers.find(base) != handlers.end())
+
+    for(const auto &handler : handlers[base])
     {
-      for(auto &handler : handlers[base])
-      {
-        handler->handle_event(base, id, data);
-      }
+      handler->handle_event(base, id, data);
     }
   }
 
@@ -54,7 +52,7 @@ namespace EventHandlers
       return;
     }
 
-    if (handlers.find(event_base) == handlers.end())
+    if (handlers[event_base].empty())
     {
       // Handler does not exist. Let's register
       esp_event_handler_register(
@@ -79,11 +77,7 @@ namespace EventHandlers
       }
       return;
     }
-    if (handlers.find(event_base) == handlers.end())
-    {
-      // handler was never registered for this event base!
-      return;
-    }
+
     handlers[event_base].remove(handler);
     if (handlers[event_base].empty())
     {
