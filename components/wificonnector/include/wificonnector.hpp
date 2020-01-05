@@ -18,6 +18,7 @@ public:
   static WifiStation* station();
 
   static void start();
+  static void stop();
 
   void handle_event(esp_event_base_t, int32_t, void*);
 
@@ -26,6 +27,7 @@ public:
 private:
   WifiConnector();
 
+  static bool is_ap_;
   static WifiConnector* instance_;
 
   WifiAP* ap_;

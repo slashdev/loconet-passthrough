@@ -8,11 +8,12 @@ class WifiStation : public WifiBase
 public:
   WifiStation();
 
-  void set_ssid(std::string);
-  void set_password(std::string);
+  std::string ssid();
+  void ssid(std::string);
+  void password(std::string);
 
   bool allow_retry();
-  void set_allow_retry(bool);
+  void allow_retry(bool);
 
   void connect();
 

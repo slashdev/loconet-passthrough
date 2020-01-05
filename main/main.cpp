@@ -81,11 +81,11 @@ extern "C" {
         ESP_ERROR_CHECK(esp_event_loop_create_default());
         tcpip_adapter_init();
 
-        WifiConnector::ap()->set_ssid("sd_loconet");
-        WifiConnector::ap()->set_password("Aa123456");
+        WifiConnector::ap()->ssid("sd_loconet");
+        WifiConnector::ap()->password("Aa123456");
 
-        WifiConnector::station()->set_ssid(DEFAULT_WIFI_SSID);
-        WifiConnector::station()->set_password(DEFAULT_WIFI_PASSWORD);
+        WifiConnector::station()->ssid(DEFAULT_WIFI_SSID);
+        WifiConnector::station()->password(DEFAULT_WIFI_PASSWORD);
 
         WifiConnector::start();
     }
