@@ -2,8 +2,12 @@
 
 #include <cstring>
 #include <string>
-
+#include <unordered_map>
 #include "tcpip_adapter.h"
+
+#include "wifiswitcher.hpp"
+#include "httpd/util/uri.hpp"
+
 
 bool WifiRequestHandler::accept(httpd::Request* request)
 {
@@ -48,5 +52,21 @@ void WifiRequestHandler::handle(httpd::Request* request, httpd::Response* respon
   else if (request->method() == httpd::method::POST && request->uri().compare("/wifi/set") == 0)
   {
     // TODO!
+    std::unordered_map<std::string, std::string> vars = httpd::uri::parse_query_string(request->body());
+
+
+    if ( (vars.find("ssid") != vars.end()) && (vars["ssid"].length() < 32) )
+    {
+      // WifiSwitcher::station()->ssid(vars["ssid"]);
+    }
+
+    if ( (vars.find("ssid") != vars.end()) && (vars["ssid"].length() < 32) )
+    {
+      // WifiSwitcher::station()->password(vars["ssid"]);
+    }
+
+    response->status(httpd::status::OK);
+    response->header("Location", "/wifi");
+    // response->body(body);
   }
 }
