@@ -1,4 +1,4 @@
-#include "connector.hpp"
+#include "wificonnector.hpp"
 #include "event_handlers.hpp"
 
 WifiConnector::WifiConnector()
