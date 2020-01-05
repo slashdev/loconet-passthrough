@@ -16,7 +16,8 @@ public:
 
   void connect();
 
-  esp_err_t handle_event(void *, system_event_t *);
+  void handle_event(esp_event_base_t, int32_t, void *);
+
 private:
   wifi_config_t cfg_station_ = {};
   bool allow_retry_;
