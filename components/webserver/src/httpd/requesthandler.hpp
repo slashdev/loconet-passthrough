@@ -1,5 +1,5 @@
-#ifndef URIHANDLER_HPP_
-#define URIHANDLER_HPP_
+#ifndef REQUESTHANDLER_HPP_
+#define REQUESTHANDLER_HPP_
 
 #include "request.hpp"
 #include "response.hpp"
@@ -7,7 +7,7 @@
 namespace httpd
 {
 
-  class URIHandler
+  class RequestHandler
   {
   public:
     virtual bool accept(Request*);

@@ -13,8 +13,7 @@
 #include <unordered_map>
 
 #include "session.hpp"
-#include "urihandler.hpp"
-#include "baseclass.hpp"
+#include "requesthandler.hpp"
 
 #include <list>
 
@@ -30,15 +29,15 @@
 namespace httpd
 {
 
-  class Server : public BaseClass
+  class Server
   {
   public:
     Server();
     Server(uint16_t port);
     ~Server();
 
-    void add(URIHandler*);
-    void remove(URIHandler*);
+    void add(RequestHandler*);
+    void remove(RequestHandler*);
 
     esp_err_t start();
     esp_err_t stop();
@@ -53,7 +52,7 @@ namespace httpd
     int socket_;
     const char* TAG = "HTTPD";
 
-    std::list<URIHandler*> handlers_;
+    std::list<RequestHandler*> handlers_;
     // std::unordered_map<int, Session*> sessions_;
     std::list<Session*> sessions_;
 

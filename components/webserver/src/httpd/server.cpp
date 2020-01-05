@@ -27,12 +27,12 @@ namespace httpd
     dest_addr_.sin_port = htons(port);
   }
 
-  void Server::add(URIHandler* handler)
+  void Server::add(RequestHandler* handler)
   {
     handlers_.push_back(handler);
   }
 
-  void Server::remove(URIHandler* handler)
+  void Server::remove(RequestHandler* handler)
   {
     handlers_.remove(handler);
   }
