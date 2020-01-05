@@ -5,12 +5,19 @@
 namespace EventHandlers
 {
 
+  /*
+   * There are two types of handlers:
+   * - handlers registered for a specific event_base
+   * - generic events that listen to any event_base
+   *
+   * The map stores the former, genericHandlers the latter.
+   */
   std::unordered_map<esp_event_base_t, std::list<EventHandler*>> handlers;
-  std::list<EventHandler*> allHandlers;
+  std::list<EventHandler*> genericHandlers;
 
   void handle_event(void* arg, esp_event_base_t base, int32_t id,  void* data)
   {
-    for(auto &handler : allHandlers)
+    for(auto &handler : genericHandlers)
     {
       handler->handle_event(base, id, data);
     }
@@ -27,7 +34,7 @@ namespace EventHandlers
   {
     if (event_base == ESP_EVENT_ANY_BASE)
     {
-      if (allHandlers.empty())
+      if (genericHandlers.empty())
       {
         // If the list is empty, it was not yet registered.
         esp_event_handler_register(
@@ -36,7 +43,7 @@ namespace EventHandlers
             handle_event, NULL
         );
       }
-      allHandlers.push_back(handler);
+      genericHandlers.push_back(handler);
       return;
     }
 
@@ -55,8 +62,8 @@ namespace EventHandlers
   {
     if (event_base == ESP_EVENT_ANY_BASE)
     {
-      allHandlers.remove(handler);
-      if (allHandlers.empty())
+      genericHandlers.remove(handler);
+      if (genericHandlers.empty())
       {
         esp_event_handler_unregister(
           ESP_EVENT_ANY_BASE,
