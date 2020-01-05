@@ -1,9 +1,9 @@
 set(COMPONENT_ADD_INCLUDEDIRS include)
 set(COMPONENT_SRCS
-        "wifibase.cpp"
-        "wifiap.cpp"
-        "wifistation.cpp"
-        "wificonnector.cpp"
+        "wifi_base.cpp"
+        "wifi_ap.cpp"
+        "wifi_station.cpp"
+        "wifi_connector.cpp"
 )
 
 set(COMPONENT_REQUIRES
