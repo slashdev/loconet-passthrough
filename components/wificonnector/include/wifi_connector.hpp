@@ -3,8 +3,8 @@
 
 #include "event_handler.hpp"
 
-#include "wifiap.hpp"
-#include "wifistation.hpp"
+#include "wifi_ap.hpp"
+#include "wifi_station.hpp"
 
 #ifndef WIFI_MAX_CONNECTION_RETRY
 #define WIFI_MAX_CONNECTION_RETRY 4

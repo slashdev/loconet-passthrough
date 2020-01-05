@@ -1,7 +1,7 @@
 #ifndef WIFISTATION_HPP_
 #define WIFISTATION_HPP_
 
-#include "wifibase.hpp"
+#include "wifi_base.hpp"
 
 class WifiStation : public WifiBase
 {

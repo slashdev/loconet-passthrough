@@ -1,4 +1,4 @@
-#include "wifiap.hpp"
+#include "wifi_ap.hpp"
 #include "event_handlers.hpp"
 
 WifiAP::WifiAP()
@@ -31,28 +31,6 @@ void WifiAP::password(std::string password)
     std::copy(password.begin(), password.end(), cfg_ap_.ap.password);
   }
 }
-
-void WifiAP::authmode(wifi_auth_mode_t mode)
-{
-  cfg_ap_.ap.authmode = mode;
-}
-
-wifi_auth_mode_t WifiAP::authmode()
-{
-  return cfg_ap_.ap.authmode;
-}
-
-
-void WifiAP::channel(uint8_t channel)
-{
-  cfg_ap_.ap.channel = channel;
-}
-
-uint8_t WifiAP::channel()
-{
-  return cfg_ap_.ap.channel;
-}
-
 
 void WifiAP::max_connections(uint8_t connections)
 {

@@ -1,7 +1,7 @@
 #ifndef WIFIAP_HPP_
 #define WIFIAP_HPP_
 
-#include "wifibase.hpp"
+#include "wifi_base.hpp"
 
 class WifiAP : public WifiBase
 {

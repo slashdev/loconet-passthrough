@@ -11,7 +11,8 @@
 
 #include "event_handlers.hpp"
 
-#include "wificonnector.hpp"
+#include "wifi_connector.hpp"
+
 #include "wifisettings.h"
 
 extern "C" {
