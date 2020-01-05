@@ -11,12 +11,6 @@ public:
   void ssid(std::string);
   void password(std::string);
 
-  void authmode(wifi_auth_mode_t);
-  wifi_auth_mode_t authmode();
-
-  void channel(uint8_t);
-  uint8_t channel();
-
   void max_connections(uint8_t);
   uint8_t max_connections();
 

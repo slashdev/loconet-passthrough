@@ -6,11 +6,9 @@ WifiAP::WifiAP()
   cfg_ap_ = {};
   cfg_ap_.ap = {};
   cfg_ap_.ap.ssid_hidden = 0;
+  cfg_ap_.ap.authmode = WIFI_AUTH_WPA_WPA2_PSK;
 
-  // Default set WPA_WPA2 authmode
-  this->authmode(WIFI_AUTH_WPA_WPA2_PSK);
   this->max_connections(4);
-  this->channel(0);
 
   EventHandlers::add(WIFI_EVENT, this);
 }
