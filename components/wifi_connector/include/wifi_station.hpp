@@ -1,5 +1,5 @@
-#ifndef WIFISTATION_HPP_
-#define WIFISTATION_HPP_
+#ifndef WIFI_STATION_HPP_
+#define WIFI_STATION_HPP_
 
 #include "wifi_base.hpp"
 
@@ -25,4 +25,4 @@ private:
 };
 
 
-#endif
+#endif // WIFI_STATION_HPP_

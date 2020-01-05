@@ -1,5 +1,5 @@
-#ifndef WIFIAP_HPP_
-#define WIFIAP_HPP_
+#ifndef WIFI_AP_HPP_
+#define WIFI_AP_HPP_
 
 #include "wifi_base.hpp"
 
@@ -23,4 +23,4 @@ private:
 };
 
 
-#endif
+#endif // WIFI_AP_HPP_

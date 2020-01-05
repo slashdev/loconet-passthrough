@@ -1,12 +1,13 @@
-#ifndef WIFIBASE_HPP_
-#define WIFIBASE_HPP_
+#ifndef WIFI_BASE_HPP_
+#define WIFI_BASE_HPP_
 
-#include "event_handler.hpp"
 #include <string>
+
 #include "esp_system.h"
 #include "esp_wifi.h"
 #include "tcpip_adapter.h"
 
+#include "event_handler.hpp"
 
 class WifiBase : public EventHandler
 {
@@ -30,4 +31,4 @@ protected:
   std::string ssid_;
 };
 
-#endif
+#endif // WIFI_BASE_HPP_
