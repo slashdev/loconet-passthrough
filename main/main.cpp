@@ -16,13 +16,6 @@
 
 extern "C" {
 
-    /*
-    static esp_err_t handle_event(void *ctx, system_event_t *event)
-    {
-        return EventHandlers::handle_event(ctx, event);
-    }
-    */
-
     void app_main()
     {
         esp_err_t ret = nvs_flash_init();
