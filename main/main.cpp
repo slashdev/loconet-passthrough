@@ -27,7 +27,8 @@ extern "C" {
         }
         ESP_ERROR_CHECK(ret);
 
-        ESP_ERROR_CHECK(esp_event_loop_create_default());
+        EventHandlers::init();
+
         tcpip_adapter_init();
 
         WifiConnector::ap()->ssid("sd_loconet");

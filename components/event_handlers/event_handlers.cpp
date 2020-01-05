@@ -4,12 +4,6 @@
 
 #include "event_handlers.hpp"
 
-  /*
-   * NOTE: Ensure the following code is added to ```app_main()```:
-   * <code>
-   *    ESP_ERROR_CHECK(esp_event_loop_create_default());
-   * </code>
-   */
 namespace EventHandlers
 {
 
@@ -38,7 +32,6 @@ namespace EventHandlers
 
   void init()
   {
-
     ESP_ERROR_CHECK(esp_event_loop_create_default());
     // Register ourselves as event handler to
     // any event in the system.
@@ -66,24 +59,10 @@ namespace EventHandlers
     if (event_base == ESP_EVENT_ANY_BASE)
     {
       genericHandlers.remove(handler);
-      if (genericHandlers.empty())
-      {
-        esp_event_handler_unregister(
-          ESP_EVENT_ANY_BASE,
-          ESP_EVENT_ANY_ID,
-          handle_event);
-      }
       return;
     }
 
     handlers[event_base].remove(handler);
-    if (handlers[event_base].empty())
-    {
-      esp_event_handler_unregister(
-        event_base,
-        ESP_EVENT_ANY_ID,
-        handle_event);
-    }
   }
 
 }
