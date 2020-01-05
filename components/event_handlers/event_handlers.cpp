@@ -1,7 +1,8 @@
 #include <list>
 #include <unordered_map>
-#include "event_handlers.hpp"
+#include "esp_err.h"
 
+#include "event_handlers.hpp"
 
   /*
    * NOTE: Ensure the following code is added to ```app_main()```:
@@ -35,31 +36,28 @@ namespace EventHandlers
     }
   }
 
+  void init()
+  {
+
+    ESP_ERROR_CHECK(esp_event_loop_create_default());
+    // Register ourselves as event handler to
+    // any event in the system.
+    ESP_ERROR_CHECK(esp_event_handler_register(
+        ESP_EVENT_ANY_BASE,
+        ESP_EVENT_ANY_ID,
+        handle_event, NULL
+    ));
+  }
+
+
   void add(esp_event_base_t event_base, EventHandler *handler)
   {
     if (event_base == ESP_EVENT_ANY_BASE)
     {
-      if (genericHandlers.empty())
-      {
-        // If the list is empty, it was not yet registered.
-        esp_event_handler_register(
-            ESP_EVENT_ANY_BASE,
-            ESP_EVENT_ANY_ID,
-            handle_event, NULL
-        );
-      }
       genericHandlers.push_back(handler);
       return;
     }
 
-    if (handlers[event_base].empty())
-    {
-      // Handler does not exist. Let's register
-      esp_event_handler_register(
-        event_base,
-        ESP_EVENT_ANY_ID,
-        handle_event, NULL);
-    }
     handlers[event_base].push_back(handler);
   }
 
