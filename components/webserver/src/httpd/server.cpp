@@ -168,7 +168,7 @@ namespace httpd
     int conn = accept(socket_, (sockaddr *)&addr_from, &addr_from_len);
 
     if (conn < 0) {
-      ESP_LOGW(TAG, "Error in accept (%d)", conn);
+      // ESP_LOGW(TAG, "Error in accept (%d)", conn);
       return ESP_FAIL;
     }
     // ESP_LOGI(TAG, "newfd = %d", conn);
