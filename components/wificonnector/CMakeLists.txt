@@ -1,11 +1,12 @@
 set(COMPONENT_ADD_INCLUDEDIRS include)
-set(COMPONENT_SRCS  
+set(COMPONENT_SRCS
         "wifibase.cpp"
-        "wifiap.cpp" 
+        "wifiap.cpp"
         "wifistation.cpp"
+        "connector.cpp"
 )
 
-set(COMPONENT_REQUIRES 
+set(COMPONENT_REQUIRES
         event_handlers
     )
 
