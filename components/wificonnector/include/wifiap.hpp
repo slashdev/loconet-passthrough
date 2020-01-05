@@ -8,12 +8,17 @@ class WifiAP : public WifiBase
 public:
   WifiAP();
 
-  void set_ssid(std::string);
-  void set_password(std::string);
+  void ssid(std::string);
+  void password(std::string);
 
-  void set_authmode(wifi_auth_mode_t);
-  void set_channel(uint8_t);
-  void set_max_connections(uint8_t);
+  void authmode(wifi_auth_mode_t);
+  wifi_auth_mode_t authmode();
+
+  void channel(uint8_t);
+  uint8_t channel();
+
+  void max_connections(uint8_t);
+  uint8_t max_connections();
 
   void connect();
 

@@ -8,14 +8,14 @@ WifiAP::WifiAP()
   cfg_ap_.ap.ssid_hidden = 0;
 
   // Default set WPA_WPA2 authmode
-  this->set_authmode(WIFI_AUTH_WPA_WPA2_PSK);
-  this->set_max_connections(4);
-  this->set_channel(0);
+  this->authmode(WIFI_AUTH_WPA_WPA2_PSK);
+  this->max_connections(4);
+  this->channel(0);
 
   EventHandlers::add(WIFI_EVENT, this);
 }
 
-void WifiAP::set_ssid(std::string ssid)
+void WifiAP::ssid(std::string ssid)
 {
   if (ssid.length() < 32) {
     std::copy(ssid.begin(), ssid.end(), cfg_ap_.ap.ssid);
@@ -27,26 +27,43 @@ void WifiAP::set_ssid(std::string ssid)
   }
 }
 
-void WifiAP::set_password(std::string password)
+void WifiAP::password(std::string password)
 {
   if (password.length() < 64) {
     std::copy(password.begin(), password.end(), cfg_ap_.ap.password);
   }
 }
 
-void WifiAP::set_authmode(wifi_auth_mode_t mode)
+void WifiAP::authmode(wifi_auth_mode_t mode)
 {
   cfg_ap_.ap.authmode = mode;
 }
 
-void WifiAP::set_channel(uint8_t channel)
+wifi_auth_mode_t WifiAP::authmode()
+{
+  return cfg_ap_.ap.authmode;
+}
+
+
+void WifiAP::channel(uint8_t channel)
 {
   cfg_ap_.ap.channel = channel;
 }
 
-void WifiAP::set_max_connections(uint8_t connections)
+uint8_t WifiAP::channel()
+{
+  return cfg_ap_.ap.channel;
+}
+
+
+void WifiAP::max_connections(uint8_t connections)
 {
   cfg_ap_.ap.max_connection = connections;
+}
+
+uint8_t WifiAP::max_connections()
+{
+  return cfg_ap_.ap.max_connection;
 }
 
 void WifiAP::connect()

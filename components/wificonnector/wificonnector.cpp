@@ -20,15 +20,31 @@ WifiStation* WifiConnector::station()
   return instance()->station_;
 }
 
+bool WifiConnector::is_ap_ = false;
+
 void WifiConnector::start()
 {
-  if (station()->get_ssid().empty())
+  if (station()->ssid().empty())
   {
+    is_ap_ = true;
     ap()->connect();
   }
   else
   {
+    is_ap_ = false;
     station()->connect();
+  }
+}
+
+void WifiConnector::stop()
+{
+  if (is_ap_)
+  {
+    ap()->disconnect();
+  }
+  else
+  {
+    station()->disconnect();
   }
 }
 
@@ -44,6 +60,7 @@ void WifiConnector::handle_event(esp_event_base_t base, int32_t event, void *dat
       tries_++;
       if (tries_ > WIFI_MAX_CONNECTION_RETRY)
       {
+        is_ap_ = true;
         station_->disconnect();
         ap_->connect();
       }

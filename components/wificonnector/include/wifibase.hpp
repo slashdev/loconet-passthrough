@@ -13,13 +13,13 @@ class WifiBase : public EventHandler
 public:
   WifiBase();
   ~WifiBase();
-  
-  bool is_connected();
 
-  virtual void set_ssid(std::string) =0;
-  virtual void set_password(std::string) =0;
+  bool connected();
 
-  std::string get_ssid();
+  std::string ssid();
+  virtual void ssid(std::string) =0;
+
+  virtual void password(std::string) =0;
 
   virtual void connect() =0;
   void disconnect();

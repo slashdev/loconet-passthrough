@@ -11,7 +11,15 @@ WifiStation::WifiStation()
   EventHandlers::add(IP_EVENT, this);
 }
 
-void WifiStation::set_ssid(std::string ssid)
+// Note that this function is exactly the same as the base
+// But if not defined here, the connector cannot find the
+// right ssid() function...
+std::string WifiStation::ssid()
+{
+  return ssid_;
+}
+
+void WifiStation::ssid(std::string ssid)
 {
   if (ssid.length() < 32) {
     std::copy(ssid.begin(), ssid.end(), cfg_station_.sta.ssid);
@@ -23,7 +31,7 @@ void WifiStation::set_ssid(std::string ssid)
   }
 }
 
-void WifiStation::set_password(std::string password)
+void WifiStation::password(std::string password)
 {
   if (password.length() < 64) {
     std::copy(password.begin(), password.end(), cfg_station_.sta.password);
@@ -47,7 +55,7 @@ bool WifiStation::allow_retry()
   return allow_retry_;
 }
 
-void WifiStation::set_allow_retry(bool retry)
+void WifiStation::allow_retry(bool retry)
 {
   allow_retry_ = retry;
 }
