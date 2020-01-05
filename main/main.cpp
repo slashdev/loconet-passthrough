@@ -53,6 +53,7 @@ void webserver_task(void* args)
 
 extern "C" {
 
+<<<<<<< HEAD
 
   void memory_usage(void * pvParameter)
   {
