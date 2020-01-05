@@ -49,7 +49,7 @@ namespace EventHandlers
 
     if (handlers.find(event_base) == handlers.end())
     {
-      // handler does not exist. Let's register
+      // Handler does not exist. Let's register
       esp_event_handler_register(
         event_base,
         ESP_EVENT_ANY_ID,
