@@ -9,8 +9,6 @@ namespace httpd
 	{
 		socket_ = socket;
 		from_ = from;
-
-		process();
 	}
 
 	Session::~Session()
@@ -44,17 +42,12 @@ namespace httpd
 		return socket_;
 	}
 
-	bool Session::valid()
-	{
-		return valid_;
-	}
-
-	void Session::process()
+	bool Session::process()
 	{
 		if (socket_ < 0)
 		{
 			ESP_LOGW(TAG, "No socket!");
-			return;
+			return false;
 		}
 
 		char buffer[HTTD_SERVER_MAX_REQUEST_LENGTH];
@@ -73,12 +66,10 @@ namespace httpd
 	 		// Split the buffer into a header and the rest
 	 		response_ = new Response();
 
-	 		valid_ = true;
+	 		return true;
 	 	}
-	 	else
-	 	{
-	 		valid_ = false;
-	 	}
+
+	 	return true;
 	}
 
 

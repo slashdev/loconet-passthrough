@@ -97,7 +97,12 @@ namespace httpd
 
       // ESP_LOGI(TAG, "Working on session: %d", session->socket());
 
-      // session->process();
+      if( !session->process() )
+      {
+        // It is not a valid process, continue with the next
+        delete session;
+        continue;
+      }
 
       bool handled = false;
       for(auto &handler: handlers_)
@@ -178,14 +183,7 @@ namespace httpd
 
     Session* session = new Session(conn, addr_from);
 
-    if (session->valid())
-    {
-      sessions_.push_back(session);
-    }
-    else
-    {
-      delete session;
-    }
+    sessions_.push_back(session);
 
     return ESP_OK;
   }

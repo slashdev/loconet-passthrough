@@ -9,7 +9,6 @@
 
 #include "request.hpp"
 #include "response.hpp"
-#include "baseclass.hpp"
 
 #ifndef HTTD_SERVER_MAX_REQUEST_LENGTH
 #define HTTD_SERVER_MAX_REQUEST_LENGTH 512
@@ -18,7 +17,7 @@
 namespace httpd
 {
 
-	class Session : public BaseClass
+	class Session
 	{
 	public:
 		Session(int, sockaddr_in);
@@ -31,12 +30,12 @@ namespace httpd
 
 		void reply();
 
-		bool valid();
-
+		// Returns true if the data on the connection
+		// could be read and processed.
+		// Request and Response are only set if process == true.
+		bool process();
 	private:
-		void process();
 
-		bool valid_ = false;
 		int socket_ = -1;
 		sockaddr_in from_ = {};
 
