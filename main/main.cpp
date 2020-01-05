@@ -88,6 +88,9 @@ extern "C" {
 
   void app_main()
   {
+
+    EventHandlers::init();
+
     tcpip_adapter_init();
 
     esp_err_t ret = nvs_flash_init();
@@ -98,16 +101,13 @@ extern "C" {
     }
     ESP_ERROR_CHECK(ret);
 
-    ESP_ERROR_CHECK(esp_event_loop_init(handle_event, NULL) );
+    WifiConnector::ap()->ssid("sd_loconet");
+    WifiConnector::ap()->password("Aa123456");
 
+    WifiConnector::station()->ssid(DEFAULT_WIFI_SSID);
+    WifiConnector::station()->password(DEFAULT_WIFI_PASSWORD);
 
-    WifiSwitcher::ap()->set_ssid("sd_loconet");
-    WifiSwitcher::ap()->set_password("Aa123456");
-
-    WifiSwitcher::station()->set_ssid(DEFAULT_WIFI_SSID);
-    WifiSwitcher::station()->set_password(DEFAULT_WIFI_PASSWORD);
-
-    WifiSwitcher::start();
+    WifiConnector::start();
 
     // Create a task for the webserver
     // And directly suspend it
