@@ -8,6 +8,6 @@ set(COMPONENT_SRCS
 
 set(COMPONENT_REQUIRES
         event_handlers
-    )
+)
 
 register_component()
