@@ -3,7 +3,7 @@ set(COMPONENT_SRCS
         "wifibase.cpp"
         "wifiap.cpp"
         "wifistation.cpp"
-        "connector.cpp"
+        "wificonnector.cpp"
 )
 
 set(COMPONENT_REQUIRES

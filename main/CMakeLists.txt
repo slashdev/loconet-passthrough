@@ -1,6 +1,5 @@
 set(COMPONENT_SRCS
     "main.cpp"
-    "wifiswitcher.cpp"
     "wifirequesthandler.cpp"
 )
 
