@@ -12,12 +12,10 @@
 
 #include "method.hpp"
 
-#include "baseclass.hpp"
-
 namespace httpd
 {
 
-	class Request : public BaseClass
+	class Request
 	{
 
 	public:

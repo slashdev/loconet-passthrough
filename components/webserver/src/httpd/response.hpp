@@ -4,12 +4,10 @@
 #include <unordered_map>
 #include "status.hpp"
 
-#include "baseclass.hpp"
-
 namespace httpd
 {
 
-  class Response : public BaseClass
+  class Response
   {
 
   public:
