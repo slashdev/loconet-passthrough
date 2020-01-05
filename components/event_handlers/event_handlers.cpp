@@ -2,6 +2,13 @@
 #include <unordered_map>
 #include "event_handlers.hpp"
 
+
+  /*
+   * NOTE: Ensure the following code is added to ```app_main()```:
+   * <code>
+   *    ESP_ERROR_CHECK(esp_event_loop_create_default());
+   * </code>
+   */
 namespace EventHandlers
 {
 
