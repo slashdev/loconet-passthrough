@@ -6,7 +6,9 @@
 #include "wifiap.hpp"
 #include "wifistation.hpp"
 
+#ifndef WIFI_MAX_CONNECTION_RETRY
 #define WIFI_MAX_CONNECTION_RETRY 4
+#endif
 
 class WifiConnector : public EventHandler
 {
