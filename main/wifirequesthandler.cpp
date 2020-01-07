@@ -6,7 +6,7 @@
 #include "tcpip_adapter.h"
 #include "esp_log.h"
 
-#include "wifiswitcher.hpp"
+#include "wifi_connector.hpp"
 #include "httpd/util/uri.hpp"
 
 
@@ -60,14 +60,14 @@ void WifiRequestHandler::handle(httpd::Request* request, httpd::Response* respon
 
     if ( (vars.find("ssid") != vars.end()) && (vars["ssid"].length() < 32) )
     {
-      // WifiSwitcher::station()->ssid(vars["ssid"]);
+      WifiConnector::station()->ssid(vars["ssid"]);
       ssid = vars["ssid"];
     }
 
     if ( (vars.find("ssid") != vars.end()) && (vars["ssid"].length() < 32) )
     {
+      WifiConnector::station()->password(vars["ssid"]);
       password = vars["password"];
-      // WifiSwitcher::station()->password(vars["ssid"]);
     }
 
     ESP_LOGI("WifiRH", "New settings: SSID: '%s', PW: '%s'", ssid.c_str(), password.c_str());

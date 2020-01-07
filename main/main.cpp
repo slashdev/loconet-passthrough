@@ -11,7 +11,7 @@
 
 #include "event_handlers.hpp"
 
-#include "wifiswitcher.hpp"
+#include "wifi_connector.hpp"
 
 #include "httpd/server.hpp"
 
@@ -29,8 +29,6 @@
 #ifndef DEFAULT_WIFI_PASSWORD
 #define DEFAULT_WIFI_PASSWORD "defaultPassword"
 #endif
-
-
 
 size_t before = 0;
 
@@ -52,9 +50,10 @@ void webserver_task(void* args)
 
 extern "C" {
 
-  static esp_err_t handle_event(void *ctx, system_event_t *event)
+  void handle_main_event(void *args, esp_event_base_t base, int32_t event, void *data)
   {
-    if (event->event_id == SYSTEM_EVENT_STA_GOT_IP || event->event_id == SYSTEM_EVENT_AP_START)
+    if (    (base == IP_EVENT && event == IP_EVENT_STA_GOT_IP)
+         || (base == WIFI_EVENT && event == WIFI_EVENT_AP_START) )
     {
       if (webserverTaskHandler == NULL)
       {
@@ -65,11 +64,11 @@ extern "C" {
         vTaskResume(webserverTaskHandler);
       }
     }
-    if (event->event_id == SYSTEM_EVENT_STA_DISCONNECTED || event->event_id == SYSTEM_EVENT_AP_STOP)
+
+    if ( (base == WIFI_EVENT) && ( event == WIFI_EVENT_STA_DISCONNECTED || event == WIFI_EVENT_AP_STOP ) )
     {
       if (webserverTaskHandler != NULL) vTaskSuspend(webserverTaskHandler);
     }
-    return EventHandlers::handle_event(ctx, event);
   }
 
   void memory_usage(void * pvParameter)
@@ -90,6 +89,13 @@ extern "C" {
   {
 
     EventHandlers::init();
+
+    ESP_ERROR_CHECK(esp_event_handler_register(
+      WIFI_EVENT, ESP_EVENT_ANY_ID, handle_main_event, NULL
+    ));
+    ESP_ERROR_CHECK(esp_event_handler_register(
+      IP_EVENT, ESP_EVENT_ANY_ID, handle_main_event, NULL
+    ));
 
     tcpip_adapter_init();
 
