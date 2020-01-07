@@ -11,7 +11,7 @@
  */
 namespace EventHandlers
 {
-  void init();
+  void init(void);
   void add(esp_event_base_t, EventHandler*);
   void remove(esp_event_base_t, EventHandler*);
 }

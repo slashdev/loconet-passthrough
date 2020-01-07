@@ -22,5 +22,4 @@ private:
 
 };
 
-
 #endif // WIFI_AP_HPP_

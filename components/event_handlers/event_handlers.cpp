@@ -64,5 +64,4 @@ namespace EventHandlers
 
     handlers[event_base].remove(handler);
   }
-
 }
