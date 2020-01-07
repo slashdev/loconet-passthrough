@@ -15,20 +15,26 @@ WifiAP::WifiAP()
 
 void WifiAP::ssid(std::string ssid)
 {
-  if (ssid.length() < 32) {
+  if (ssid.length() < 33)
+  {
     std::copy(ssid.begin(), ssid.end(), cfg_ap_.ap.ssid);
     ssid_ = ssid;
   }
   else
   {
-    ssid_ = "";
+    std::copy_n(ssid.begin(), 32, cfg_ap_.ap.ssid);
   }
 }
 
 void WifiAP::password(std::string password)
 {
-  if (password.length() < 64) {
+  if (password.length() < 65)
+  {
     std::copy(password.begin(), password.end(), cfg_ap_.ap.password);
+  }
+  else
+  {
+    std::copy_n(password.begin(), 64, cfg_ap_.ap.password);
   }
 }
 

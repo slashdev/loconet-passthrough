@@ -1,6 +1,5 @@
-#include "wifi_station.hpp"
-
 #include "event_handlers.hpp"
+#include "wifi_station.hpp"
 
 WifiStation::WifiStation()
 {
@@ -21,20 +20,26 @@ std::string WifiStation::ssid()
 
 void WifiStation::ssid(std::string ssid)
 {
-  if (ssid.length() < 32) {
+  if (ssid.length() < 33)
+  {
     std::copy(ssid.begin(), ssid.end(), cfg_station_.sta.ssid);
     ssid_ = ssid;
   }
   else
   {
-    ssid_ = "";
+    std::copy_n(ssid.begin(), 32, cfg_station_.station.ssid);
   }
 }
 
 void WifiStation::password(std::string password)
 {
-  if (password.length() < 64) {
+  if (password.length() < 64)
+  {
     std::copy(password.begin(), password.end(), cfg_station_.sta.password);
+  }
+  else
+  {
+    std::copy_n(password.begin(), 32, cfg_station_.station.password);
   }
 }
 
