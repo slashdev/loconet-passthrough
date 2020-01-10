@@ -11,10 +11,9 @@
  */
 namespace EventHandlers
 {
-  void add(EventHandler*);
-  void remove(EventHandler*);
-
-  esp_err_t handle_event(void*, system_event_t*);
+  void init(void);
+  void add(esp_event_base_t, EventHandler*);
+  void remove(esp_event_base_t, EventHandler*);
 }
 
 #endif // EVENT_HANDLERS_HPP

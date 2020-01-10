@@ -11,34 +11,32 @@
 
 #include "event_handlers.hpp"
 
-#include "wifiswitcher.hpp"
+#include "wifi_connector.hpp"
+
+#include "wifisettings.h"
 
 extern "C" {
-
-    static esp_err_t handle_event(void *ctx, system_event_t *event)
-    {
-        return EventHandlers::handle_event(ctx, event);
-    }
 
     void app_main()
     {
         esp_err_t ret = nvs_flash_init();
-        if (ret == ESP_ERR_NVS_NO_FREE_PAGES || ret == ESP_ERR_NVS_NEW_VERSION_FOUND) 
+        if (ret == ESP_ERR_NVS_NO_FREE_PAGES || ret == ESP_ERR_NVS_NEW_VERSION_FOUND)
         {
             ESP_ERROR_CHECK(nvs_flash_erase());
             ret = nvs_flash_init();
         }
         ESP_ERROR_CHECK(ret);
 
-        ESP_ERROR_CHECK(esp_event_loop_init(handle_event, NULL) );
+        EventHandlers::init();
+
         tcpip_adapter_init();
 
-        WifiSwitcher::ap()->set_ssid("sd_loconet");
-        WifiSwitcher::ap()->set_password("Aa123456");
+        WifiConnector::ap()->ssid("sd_loconet");
+        WifiConnector::ap()->password("Aa123456");
 
-        WifiSwitcher::station()->set_ssid("defaultSsid");
-        WifiSwitcher::station()->set_password("defaultPassword");
+        WifiConnector::station()->ssid(DEFAULT_WIFI_SSID);
+        WifiConnector::station()->password(DEFAULT_WIFI_PASSWORD);
 
-        WifiSwitcher::start();
+        WifiConnector::start();
     }
 }

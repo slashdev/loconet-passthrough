@@ -1,25 +1,26 @@
-#ifndef WIFIBASE_HPP_
-#define WIFIBASE_HPP_
+#ifndef WIFI_BASE_HPP_
+#define WIFI_BASE_HPP_
 
-#include "event_handler.hpp"
 #include <string>
+
 #include "esp_system.h"
 #include "esp_wifi.h"
 #include "tcpip_adapter.h"
 
+#include "event_handler.hpp"
 
 class WifiBase : public EventHandler
 {
 public:
   WifiBase();
   ~WifiBase();
-  
-  bool is_connected();
 
-  virtual void set_ssid(std::string) =0;
-  virtual void set_password(std::string) =0;
+  bool connected();
 
-  std::string get_ssid();
+  std::string ssid();
+  virtual void ssid(std::string) =0;
+
+  virtual void password(std::string) =0;
 
   virtual void connect() =0;
   void disconnect();
@@ -30,4 +31,4 @@ protected:
   std::string ssid_;
 };
 
-#endif
+#endif // WIFI_BASE_HPP_

@@ -1,4 +1,4 @@
-#include "wifibase.hpp"
+#include "wifi_base.hpp"
 
 WifiBase::WifiBase()
 {
@@ -10,12 +10,12 @@ WifiBase::~WifiBase()
   this->disconnect();
 }
 
-bool WifiBase::is_connected()
+bool WifiBase::connected()
 {
   return connected_;
 }
 
-std::string WifiBase::get_ssid()
+std::string WifiBase::ssid()
 {
   return ssid_;
 }
@@ -23,9 +23,9 @@ std::string WifiBase::get_ssid()
 void WifiBase::disconnect()
 {
   connected_ = false;
-  
+
   ESP_ERROR_CHECK(esp_wifi_stop() );
-  // If this throws an error, we don't mind, as long as we 
+  // If this throws an error, we don't mind, as long as we
   // prepare that the next can init again...
   esp_wifi_deinit();
 }
