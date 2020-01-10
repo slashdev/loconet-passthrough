@@ -1,9 +1,8 @@
 set(COMPONENT_ADD_INCLUDEDIRS include)
-set(COMPONENT_SRCS  "udpcontroller.cpp")
+set(COMPONENT_SRCS  "udpservice.cpp")
 
-set(COMPONENT_REQUIRES 
+set(COMPONENT_REQUIRES
         freertos
-        log
         lwip
     )
 

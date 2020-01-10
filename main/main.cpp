@@ -13,7 +13,17 @@
 
 #include "wifiswitcher.hpp"
 
+#include "udpserver.hpp"
+
+UDPServer* udpServer = new UDPServer(6000);
+
 extern "C" {
+
+    void udpservertask(void* pvParameters )
+    {
+      udpServer->task(pvParameters);
+    }
+
 
     static esp_err_t handle_event(void *ctx, system_event_t *event)
     {
@@ -23,7 +33,7 @@ extern "C" {
     void app_main()
     {
         esp_err_t ret = nvs_flash_init();
-        if (ret == ESP_ERR_NVS_NO_FREE_PAGES || ret == ESP_ERR_NVS_NEW_VERSION_FOUND) 
+        if (ret == ESP_ERR_NVS_NO_FREE_PAGES || ret == ESP_ERR_NVS_NEW_VERSION_FOUND)
         {
             ESP_ERROR_CHECK(nvs_flash_erase());
             ret = nvs_flash_init();
@@ -40,5 +50,8 @@ extern "C" {
         WifiSwitcher::station()->set_password("defaultPassword");
 
         WifiSwitcher::start();
+
+        // Run the UDPServer task on priority 2
+        xTaskCreate(udpservertask, "UDP Server on port 6000", 8000, NULL, 2, NULL);
     }
 }

@@ -10,14 +10,14 @@
 
 #include <list>
 
-#include "udpcontroller_incoming_message_handler.hpp"
+#include "udpservicemessagehandler.hpp"
 
-#ifndef UDPCONTROLLER_QUEUE_SIZE
-#define UDPCONTROLLER_QUEUE_SIZE 5
+#ifndef UDPSERVICE_QUEUE_SIZE
+#define UDPSERVICE_QUEUE_SIZE 5
 #endif
 
-#ifndef UDPCONTROLLER_PORT
-#define UDPCONTROLLER_PORT 6000
+#ifndef UDPSERVICE_PORT
+#define UDPSERVICE_PORT 6000
 #endif
 
 
@@ -39,21 +39,43 @@ namespace communication
 
     /**
      * @brief UdpController sending and receiving messages via broadcasting
+     * e.g. via:
+     * <code>
+     * void controller_task( void* pvParameter )
+     * {
+     *   TickType_t xDelay = pdMS_TO_TICKS( 500 );
+     *   for(;;)
+     *   {
+     *     udpService->process_next_message();
+     *     udpService->listen();
+     *     vTaskDelay(xDelay);
+     *   }
+     * }
+     * </code>
      */
-    class Controller
+
+    class Service
     {
     public:
-      Controller();
+      Service();
+      ~Service();
 
       /*
        * Enqueues a message on the send buffer
        */
-      BaseType_t enqueue_message(uint8_t *, size_t);
+      BaseType_t enqueue(uint8_t *, size_t);
 
       /*
-       * Sets the UDP port used for communication
+       * Returns the current UDP Port
        */
-      Controller* set_udpport(uint16_t);
+      uint16_t udpport();
+
+      /*
+       * Sets the UDP port used for communication.
+       * Registered Ports only (see IANA Allocation Guidelines for TCP and UDP Port Numbers).
+       * If invalid port is used, then UDPSERVICE_PORT is used.
+       */
+      void udpport(uint16_t);
 
       /*
        * Starts the Controller. This function creates a socket
@@ -61,50 +83,43 @@ namespace communication
        * If all goes well, it sets running_ to true.
        */
       void start();
-      
+
       /**
        * Stops the controller. It closes and removes the socket.
        */
       void stop();
 
       /**
-       * A single loop of the Controller. It should be embedded in a FreeRTOS Task, 
-       * e.g. via:
-       * <code>
-       * void controller_task( void* pvParameter )
-       * {
-       *   TickType_t xDelay = pdMS_TO_TICKS( 500 );
-           for(;;)
-           {
-             udpController->work_loop();    
-             vTaskDelay(xDelay);
-           }
-         }
-       * </code>
+       * Returns whether the service is started
        */
-      void work_loop();
+      bool is_running();
+
+       /**
+       * Takes the first element of the queue en sends it via UDP
+       */
+      void process_next_message();
+
+      /**
+       * Tries to read a single message from the socket
+       */
+      void listen();
 
       /**
        * Adds a message handler to the controller to see if there are any
        * incoming messages
        */
-      void register_handler(MessageHandler*);
+      void add(MessageHandler*);
 
       /**
        * Removes a handler
        */
-      void unregister_handler(MessageHandler*);
+      void remove(MessageHandler*);
 
     private:
       /**
        * The internal queue used for sending messages
        */
       QueueHandle_t xQueue_;
-
-      /**
-       * The port number used for UDP traffic
-       */
-      uint16_t udpport_ = UDPCONTROLLER_PORT;
 
       /**
        * The socket
@@ -117,10 +132,16 @@ namespace communication
        *   running === (socket_ > 0)
        */
       bool running_ = false;
+
+      /**
+       * Default address for broadcasting.
+       */
+      sockaddr_in broadcast_address_ = {};
+
       /**
        * Function to return the broadcast address
        */
-      sockaddr_in get_broadcast_address();
+      sockaddr_in broadcast_address();
 
       /**
        * Create a new socket that can be used for broadcasting
@@ -129,20 +150,10 @@ namespace communication
       int create_socket();
 
       /**
-       * List of all Listeners for the observer pattern
+       * List of all Handlers for the observer pattern
        */
-      std::list<MessageHandler*> listeners_;
+      std::list<MessageHandler*> handlers_;
 
-      /**
-       * Takes the first element of the queue en sends it via UDP
-       */
-      void process_next_message();
-
-      /**
-       * Tries to read a single message from the socket
-       */
-      void listen();
-      
       /**
        * Notifies all listeners if a message is sent.
        * It gives each listener its own copy of the message,
