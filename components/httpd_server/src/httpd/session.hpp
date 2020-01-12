@@ -11,7 +11,7 @@
 #include "response.hpp"
 
 #ifndef HTTD_SERVER_MAX_REQUEST_LENGTH
-#define HTTD_SERVER_MAX_REQUEST_LENGTH 512
+#define HTTD_SERVER_MAX_REQUEST_LENGTH 1024
 #endif
 
 namespace httpd

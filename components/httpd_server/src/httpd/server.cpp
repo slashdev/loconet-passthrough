@@ -84,7 +84,7 @@ namespace httpd
   {
     if (socket_ < 0)
     {
-      ESP_LOGE(TAG, "NO SOCKET");
+      // ESP_LOGE(TAG, "NO SOCKET");
       return ESP_FAIL;
     }
 
@@ -148,7 +148,7 @@ namespace httpd
   {
     if (socket_ < 0)
     {
-      ESP_LOGD(TAG, "NO SOCKET");
+      // ESP_LOGD(TAG, "NO SOCKET");
       return ESP_FAIL;
     }
 
