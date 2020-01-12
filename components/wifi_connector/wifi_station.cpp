@@ -1,3 +1,4 @@
+#include <algorithm>
 #include "event_handlers.hpp"
 #include "wifi_station.hpp"
 
@@ -27,7 +28,7 @@ void WifiStation::ssid(std::string ssid)
   }
   else
   {
-    std::copy_n(ssid.begin(), 32, cfg_station_.station.ssid);
+    std::copy_n(ssid.begin(), 32, cfg_station_.sta.ssid);
   }
 }
 
@@ -39,7 +40,7 @@ void WifiStation::password(std::string password)
   }
   else
   {
-    std::copy_n(password.begin(), 32, cfg_station_.station.password);
+    std::copy_n(password.begin(), 32, cfg_station_.sta.password);
   }
 }
 

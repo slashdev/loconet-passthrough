@@ -1,3 +1,4 @@
+#include <algorithm>
 #include "wifi_ap.hpp"
 #include "event_handlers.hpp"
 
