@@ -43,10 +43,9 @@ TaskHandle_t webserverTaskHandler = NULL;
 void webserver_start()
 {
   webserver->start();
-  // xTaskCreatePinnedToCore(webserver_task, "Web Server - session handling", 16000, webserverTaskHandler, 2, NULL, 0);
   if (webserverTaskHandler == NULL)
   {
-    xTaskCreate(webserver_task, "Web Server - session handling", 16000, webserverTaskHandler, 2, NULL);
+    xTaskCreate(webserver_task, "Web Server - session handling", 16000, NULL, 2, &webserverTaskHandler );
   }
 }
 
@@ -55,7 +54,7 @@ void webserver_stop()
   if (webserverTaskHandler != NULL)
   {
     vTaskDelete(webserverTaskHandler);
-
+    webserverTaskHandler = NULL;
   }
   webserver->stop();
 }
