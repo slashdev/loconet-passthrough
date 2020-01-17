@@ -1,5 +1,4 @@
 #include "response.hpp"
-
 #include "esp_log.h"
 
 namespace httpd
@@ -68,25 +67,12 @@ namespace httpd
     msg += responsePhrase(status_);
     msg += "\r\n";
 
-    /*
-    for(auto &h : headers_)
-    {
-      stream
-          << h.first
-          << ": "
-          << h.second
-          << "\r\n";
-    }
-    */
     msg += "Content-Length: " + std::to_string(body_.length());
     msg += "\r\n\r\n";
-
-    // ESP_LOGI("Request", "body: %s", body_.c_str());
 
     if (!body_.empty()) msg += body_;
 
     return msg;
-    // return msg.c_str();
   }
 
   void Response::constructDefaultMessage(std::string msg)

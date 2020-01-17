@@ -1,5 +1,4 @@
 #include "httpd_server_task.hpp"
-
 #include "esp_event.h"
 
 // Stack size used for the Webserver handling task
@@ -19,7 +18,6 @@ void httpd_server_remove_handler(httpd::RequestHandler *handler)
 {
   server->remove(handler);
 }
-
 
 void httpd_server_task(void* args)
 {
@@ -54,7 +52,6 @@ void httpd_server_stop()
 }
 
 extern "C" {
-
   void handle_event(void *args, esp_event_base_t base, int32_t event, void *data)
   {
     if (    (base == IP_EVENT && event == IP_EVENT_STA_GOT_IP)
@@ -68,7 +65,6 @@ extern "C" {
       httpd_server_stop();
     }
   }
-
 
   void httpd_server_initialize(uint32_t stacksize, UBaseType_t priority)
   {

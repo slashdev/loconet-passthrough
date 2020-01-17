@@ -1,5 +1,5 @@
 #ifndef HTTPDSTATUS_HPP_
-#define HTTPDSTATUS_HPP_ true
+#define HTTPDSTATUS_HPP_
 
 namespace httpd
 {
@@ -49,6 +49,5 @@ namespace httpd
     } eStatus_t;
   }
 }
-
 
 #endif

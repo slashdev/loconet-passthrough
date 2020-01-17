@@ -1,21 +1,14 @@
 #ifndef WEBSERVER_HPP__
 #define WEBSERVER_HPP__
 
+#include <list>
 #include "esp_err.h"
-
-#include "tcpip_adapter.h"
-
 #include "lwip/err.h"
 #include "lwip/sockets.h"
 #include "lwip/sys.h"
-
-#include <list>
-#include <unordered_map>
-
 #include "session.hpp"
 #include "request_handler.hpp"
-
-#include <list>
+#include "tcpip_adapter.h"
 
 #ifndef HTTPD_SESSION_QUEUE_SIZE
 #define HTTPD_SESSION_QUEUE_SIZE 15
@@ -52,9 +45,7 @@ namespace httpd
     const char* TAG = "HTTPD";
 
     std::list<RequestHandler*> handlers_;
-    // std::unordered_map<int, Session*> sessions_;
     std::list<Session*> sessions_;
-
   };
 }
 

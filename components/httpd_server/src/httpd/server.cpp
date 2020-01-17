@@ -47,10 +47,8 @@ namespace httpd
 
   esp_err_t Server::start()
   {
-
     int addr_family = AF_INET;
     int ip_protocol = IPPROTO_IP;
-
 
     socket_ = socket(addr_family, SOCK_STREAM, ip_protocol);
     if (socket_ < 0) {
@@ -88,14 +86,10 @@ namespace httpd
       return ESP_FAIL;
     }
 
-    // ESP_LOGI(TAG, "On the stack: %d", sessions_.size());
-
     while(!sessions_.empty())
     {
       Session* session = sessions_.front();
       sessions_.pop_front();
-
-      // ESP_LOGI(TAG, "Working on session: %d", session->socket());
 
       if( !session->process() )
       {
@@ -159,19 +153,14 @@ namespace httpd
       return ESP_OK;
     }
 
-    // ESP_LOGI(TAG, "accept new connection");
-    // ESP_LOGI(TAG, "Sessions on the stack: %d", sessions_.size());
     sockaddr_in addr_from;
     socklen_t addr_from_len = sizeof(addr_from);
 
-    // THIS LINE FAILS
     int conn = accept(socket_, (sockaddr *)&addr_from, &addr_from_len);
 
     if (conn < 0) {
-      // ESP_LOGW(TAG, "Error in accept (%d)", conn);
       return ESP_FAIL;
     }
-    // ESP_LOGI(TAG, "newfd = %d", conn);
 
     timeval tv;
     // Set recv timeout of this fd
@@ -182,7 +171,6 @@ namespace httpd
     setsockopt(conn, SOL_SOCKET, SO_SNDTIMEO, (const char*)&tv, sizeof(tv));
 
     Session* session = new Session(conn, addr_from);
-
     sessions_.push_back(session);
 
     return ESP_OK;
@@ -194,5 +182,4 @@ namespace httpd
     processAccept();
     return ESP_OK;
   }
-
 }

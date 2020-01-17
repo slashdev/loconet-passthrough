@@ -9,11 +9,9 @@
 extern void httpd_server_add_handler(httpd::RequestHandler *);
 extern void httpd_server_remove_handler(httpd::RequestHandler *);
 
-
 extern "C"
 {
   void httpd_server_initialize(uint32_t, UBaseType_t);
 }
-
 
 #endif
