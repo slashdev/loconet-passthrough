@@ -2,7 +2,7 @@
 #define WIFIREQUEST_HANDLER_HPP_
 
 #include <string>
-#include "httpd/requesthandler.hpp"
+#include "httpd/request_handler.hpp"
 #include "httpd/server.hpp"
 
 namespace httpd
