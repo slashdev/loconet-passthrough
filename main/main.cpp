@@ -15,6 +15,9 @@
 
 #include "wifisettings.h"
 
+#include "httpd_server_task.hpp"
+#include "wifihandler/handler.hpp"
+
 extern "C" {
 
     void app_main()
@@ -38,5 +41,8 @@ extern "C" {
         WifiConnector::station()->password(DEFAULT_WIFI_PASSWORD);
 
         WifiConnector::start();
+
+        httpd_server_initialize(16000, 2);
+        httpd_server_add_handler(new httpd::handlers::wifi::Handler());
     }
 }

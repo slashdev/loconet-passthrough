@@ -5,6 +5,7 @@ set(COMPONENT_SRCS
   "src/httpd/request.cpp"
   "src/httpd/response.cpp"
   "src/httpd/util/uri.cpp"
+  "src/httpd_server_task.cpp"
 )
 
 set(COMPONENT_REQUIRES
