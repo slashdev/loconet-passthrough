@@ -80,7 +80,7 @@ namespace httpd
     return ESP_OK;
   }
 
-  esp_err_t Server::process_sessions()
+  esp_err_t Server::processSessions()
   {
     if (socket_ < 0)
     {
@@ -131,8 +131,8 @@ namespace httpd
             session->response()->status(status::METHOD_NOT_ALLOWED);
             break;
         }
-        session->response()->construct_default_message(
-            "method: " + Request::method_to_str(session->request()->method())
+        session->response()->constructDefaultMessage(
+            "method: " + Request::toString(session->request()->method())
             + " not possible on URI: " + session->request()->uri()
         );
       }
@@ -144,7 +144,7 @@ namespace httpd
     return ESP_OK;
   }
 
-  esp_err_t Server::process_accept()
+  esp_err_t Server::processAccept()
   {
     if (socket_ < 0)
     {
@@ -190,8 +190,8 @@ namespace httpd
 
   esp_err_t Server::thread()
   {
-    process_sessions();
-    process_accept();
+    processSessions();
+    processAccept();
     return ESP_OK;
   }
 

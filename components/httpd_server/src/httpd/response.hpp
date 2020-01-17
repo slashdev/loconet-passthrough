@@ -35,9 +35,9 @@ namespace httpd
 
     std::string message();
 
-    void construct_default_message(std::string);
+    void constructDefaultMessage(std::string);
 
-    static const char* response_phrase(status::eStatus_t);
+    static const char* responsePhrase(status::eStatus_t);
   private:
     status::eStatus_t status_ = status::NOT_FOUND;
     std::string body_;

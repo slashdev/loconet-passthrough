@@ -65,7 +65,7 @@ namespace httpd
     std::string msg = std::string("HTTP/1.1 ");
     msg += std::to_string(status_);
     msg += " ";
-    msg += response_phrase(status_);
+    msg += responsePhrase(status_);
     msg += "\r\n";
 
     /*
@@ -89,11 +89,11 @@ namespace httpd
     // return msg.c_str();
   }
 
-  void Response::construct_default_message(std::string msg)
+  void Response::constructDefaultMessage(std::string msg)
   {
     std::string error = std::to_string(status());
     error += " - ";
-    error += Response::response_phrase(status());
+    error += Response::responsePhrase(status());
 
     body_ = std::string("<html><head><title>");
     body_ += error;
@@ -106,7 +106,7 @@ namespace httpd
     header("Content-Type", "text/html");
   }
 
-  const char* Response::response_phrase(status::eStatus_t code)
+  const char* Response::responsePhrase(status::eStatus_t code)
   {
     switch(code)
     {

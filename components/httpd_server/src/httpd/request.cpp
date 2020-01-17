@@ -22,11 +22,11 @@ namespace httpd
 		char *cursor = data;
 
 		// Parse the method
-		cursor = parse_method(cursor);
+		cursor = parseMethod(cursor);
 		// ESP_LOGI("Request", "I have method: '%s'", std::string(data, cursor).c_str());
 
 		// Parse the URI
-		cursor = parse_uri(cursor);
+		cursor = parseUri(cursor);
 		// ESP_LOGI("Request", "I have uri: %s", uri_.c_str());
 
 		// Move to the end of the line
@@ -34,7 +34,7 @@ namespace httpd
 		cursor += 2;
 
 		// Parse all headers
-		cursor = parse_headers(cursor );
+		cursor = parseHeaders(cursor );
 		// If the cursor is not at the end, there is still
 		// at least one \n, so we remove that one as well.
 
@@ -76,7 +76,7 @@ namespace httpd
 		return body_;
 	}
 
-	char* Request::parse_method(char* cursor)
+	char* Request::parseMethod(char* cursor)
 	{
 		// Move to the next space...
 		char* end = cursor;
@@ -116,7 +116,7 @@ namespace httpd
 		return end;
 	}
 
-	char* Request::parse_uri(char* data)
+	char* Request::parseUri(char* data)
 	{
 		// first remove trailing spaces
 		char *begin = data;
@@ -130,7 +130,7 @@ namespace httpd
 		return end;
 	}
 
-	char* Request::parse_headers(char* data)
+	char* Request::parseHeaders(char* data)
 	{
 		char* var = data;
 
@@ -168,7 +168,7 @@ namespace httpd
 
   void Request::log()
   {
-    ESP_LOGI("Request", "Method: %s", Request::method_to_str(method()).c_str());
+    ESP_LOGI("Request", "Method: %s", Request::toString(method()).c_str());
     ESP_LOGI("Request", "URI   : %s", uri().c_str());
     for(auto &h : headers_)
     {
@@ -177,7 +177,7 @@ namespace httpd
 		ESP_LOGI("Request", "body  : %s", body().c_str());
   }
 
-  std::string Request::method_to_str(method::eHTTPMethod_t code)
+  std::string Request::toString(method::eHTTPMethod_t code)
   {
     switch(code)
     {

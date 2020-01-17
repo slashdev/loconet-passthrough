@@ -31,16 +31,16 @@ namespace httpd
 
 		void log();
 
-		static std::string method_to_str(method::eHTTPMethod_t);
+		static std::string toString(method::eHTTPMethod_t);
 	protected:
 		method::eHTTPMethod_t method_ = method::OTHER;
 		std::string uri_;
 		std::string body_;
 
 		std::unordered_map<std::string, std::string> headers_;
-		char* parse_method(char*);
-		char* parse_uri(char*);
-		char* parse_headers(char*);
+		char* parseMethod(char*);
+		char* parseUri(char*);
+		char* parseHeaders(char*);
 
 	};
 }

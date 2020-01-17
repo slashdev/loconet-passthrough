@@ -43,8 +43,8 @@ namespace httpd
 
     esp_err_t thread();
 
-    esp_err_t process_sessions();
-    esp_err_t process_accept();
+    esp_err_t processSessions();
+    esp_err_t processAccept();
 
   private:
     sockaddr_in dest_addr_;
