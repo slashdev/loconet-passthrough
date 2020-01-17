@@ -7,7 +7,6 @@
 #include "esp_log.h"
 
 #include "httpd/util/uri.hpp"
-#include "wifi_connector.hpp"
 
 namespace httpd
 {
@@ -15,11 +14,6 @@ namespace httpd
   {
     namespace wifi
     {
-      Handler::Handler(httpd::Server *server)
-      {
-        server_ = server;
-        server_->add(this);
-      }
 
       std::string Handler::GET_url()
       {
@@ -63,7 +57,7 @@ namespace httpd
           body += POST_url();
           body += "\" method=\"post\"><table>";
           body += "<tr><td>SSID:</td><td><input type=\"text\" name=\"ssid\" maxlength=\"32\" value=\"";
-          body += WifiConnector::station()->ssid();
+          // body += WifiConnector::station()->ssid();
           body += "\"/></td></tr><tr><td>Password:</td><td><input type=\"password\" name=\"password\" maxlength=\"64\"/></td></tr>";
           body += "<tr><td></td><td><input type=\"submit\" name=\"submit\" value=\"submit\"/></td></tr></form></table>";
 
@@ -92,17 +86,10 @@ namespace httpd
           if (    (vars.find("ssid") != vars.end())
                && (vars.find("password") != vars.end()) )
           {
-            WifiConnector::station()->ssid(vars["ssid"]);
-            WifiConnector::station()->password(vars["password"]);
 
             ESP_LOGI("WifiRH", "New settings: SSID: '%s', PW: '%s'",
               vars["ssid"].c_str(), vars["password"].c_str());
 
-            // Stop our own server, as we cannot receive
-            // messages while changing the Wifi interface
-            server_->stop();
-            WifiConnector::stop();
-            WifiConnector::start();
           }
 
           response->status(httpd::status::OK);

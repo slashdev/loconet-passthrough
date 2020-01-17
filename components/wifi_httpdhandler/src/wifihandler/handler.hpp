@@ -3,7 +3,6 @@
 
 #include <string>
 #include "httpd/request_handler.hpp"
-#include "httpd/server.hpp"
 
 namespace httpd
 {
@@ -14,7 +13,6 @@ namespace httpd
       class Handler : public httpd::RequestHandler
       {
       public:
-        Handler(httpd::Server*);
         bool accept(httpd::Request*);
         void handle(httpd::Request*, httpd::Response*);
 
@@ -24,7 +22,6 @@ namespace httpd
         void POST_url(std::string);
         std::string POST_url(void);
       private:
-        httpd::Server *server_ = NULL;
         std::string get_url_ = "/wifi";
         std::string post_url_ = "/wifi/set";
       };

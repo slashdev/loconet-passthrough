@@ -5,7 +5,6 @@ set(COMPONENT_SRCS
 
 set(COMPONENT_REQUIRES
   httpd_server
-  wifi_connector
   log
 )
 
