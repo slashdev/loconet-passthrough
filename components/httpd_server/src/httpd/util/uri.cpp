@@ -42,7 +42,6 @@ namespace httpd
 
       while( found <= std::string::npos)
       {
-
         size_t split = query.find(HTTPD_UTIL_URI_VARIABLE_SPLIT, prev);
         if (split != std::string::npos)
         {

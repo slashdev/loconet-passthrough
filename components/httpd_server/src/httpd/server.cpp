@@ -91,7 +91,7 @@ namespace httpd
       Session* session = sessions_.front();
       sessions_.pop_front();
 
-      if( !session->process() )
+      if(!session->process())
       {
         // It is not a valid process, continue with the next
         delete session;
@@ -108,6 +108,7 @@ namespace httpd
           break;
         }
       }
+
       if (!handled)
       {
         // Set the error to 404 or NOT IMPLEMENTED
@@ -163,11 +164,11 @@ namespace httpd
     }
 
     timeval tv;
-    // Set recv timeout of this fd
+    // Set receive timeout of this fd
     tv.tv_sec = 5;
     tv.tv_usec = 0;
     setsockopt(conn, SOL_SOCKET, SO_RCVTIMEO, (const char*)&tv, sizeof(tv));
-    // Snd the same time out for sending
+    // Set the same timeout for sending
     setsockopt(conn, SOL_SOCKET, SO_SNDTIMEO, (const char*)&tv, sizeof(tv));
 
     Session* session = new Session(conn, addr_from);

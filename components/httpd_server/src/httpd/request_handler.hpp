@@ -6,7 +6,6 @@
 
 namespace httpd
 {
-
   class RequestHandler
   {
   public:

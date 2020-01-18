@@ -3,7 +3,6 @@
 
 namespace httpd
 {
-
   Session::Session(int socket, sockaddr_in from)
   {
     socket_ = socket;

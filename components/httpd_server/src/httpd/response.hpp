@@ -6,10 +6,8 @@
 
 namespace httpd
 {
-
   class Response
   {
-
   public:
     Response();
 
@@ -32,12 +30,12 @@ namespace httpd
 
     // Get the body
     std::string body();
-
     std::string message();
 
     void constructDefaultMessage(std::string);
 
     static const char* responsePhrase(status::eStatus_t);
+
   private:
     status::eStatus_t status_ = status::NOT_FOUND;
     std::string body_;

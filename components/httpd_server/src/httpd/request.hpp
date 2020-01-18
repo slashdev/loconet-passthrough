@@ -8,10 +8,8 @@
 
 namespace httpd
 {
-
   class Request
   {
-
   public:
     Request(char*);
     ~Request();
@@ -26,6 +24,7 @@ namespace httpd
     void log();
 
     static std::string toString(method::eHTTPMethod_t);
+
   protected:
     method::eHTTPMethod_t method_ = method::OTHER;
     std::string uri_;
@@ -35,7 +34,6 @@ namespace httpd
     char* parseMethod(char*);
     char* parseUri(char*);
     char* parseHeaders(char*);
-
   };
 }
 

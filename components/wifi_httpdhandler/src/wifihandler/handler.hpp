@@ -21,6 +21,7 @@ namespace httpd
 
         void POST_url(std::string);
         std::string POST_url(void);
+
       private:
         std::string get_url_ = "/wifi";
         std::string post_url_ = "/wifi/set";

@@ -16,7 +16,6 @@
 
 namespace httpd
 {
-
 	class Session
 	{
 	public:
@@ -34,8 +33,8 @@ namespace httpd
 		// could be read and processed.
 		// Request and Response are only set if process == true.
 		bool process();
-	private:
 
+	private:
 		int socket_ = -1;
 		sockaddr_in from_ = {};
 
@@ -44,7 +43,6 @@ namespace httpd
 
 		const char* TAG = "HTTPD Session";
 	};
-
 }
 
 #endif

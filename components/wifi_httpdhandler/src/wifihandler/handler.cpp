@@ -86,7 +86,6 @@ namespace httpd
           if (    (vars.find("ssid") != vars.end())
                && (vars.find("password") != vars.end()) )
           {
-
             ESP_LOGI("WifiRH", "New settings: SSID: '%s', PW: '%s'",
               vars["ssid"].c_str(), vars["password"].c_str());
 

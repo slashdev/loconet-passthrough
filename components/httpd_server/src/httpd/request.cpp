@@ -31,7 +31,7 @@ namespace httpd
     cursor += 2;
 
     // Parse all headers
-    cursor = parseHeaders(cursor );
+    cursor = parseHeaders(cursor);
 
     // If the cursor is not at the end, there is still
     // at least one \n, so we remove that one as well.
@@ -76,7 +76,7 @@ namespace httpd
   char* Request::parseMethod(char* cursor)
   {
     // Move to the next space...
-    char* end = cursor;
+    char *end = cursor;
     int count = 0;
     while(*end && *end != ' ')
     {
@@ -115,11 +115,11 @@ namespace httpd
 
   char* Request::parseUri(char* data)
   {
-    // first remove trailing spaces
+    // Remove spaces at the start of the URI
     char *begin = data;
     while (*begin && *begin == ' ') begin++;
 
-    char* end = begin;
+    char *end = begin;
     while(*end && *end != ' ') end++;
 
     uri_ = std::string(begin, end);
@@ -129,27 +129,27 @@ namespace httpd
 
   char* Request::parseHeaders(char* data)
   {
-    char* var = data;
+    char *var = data;
 
     while(*var)
     {
-      char* begin = var;
+      char *begin = var;
 
       // Check where the end of line is. If at the beginning,
       // We are at the end of the headers.
-      char* endofline = std::strstr(begin, "\r\n");
-      if (!endofline)
+      char *endOfLine = std::strstr(begin, "\r\n");
+      if (!endOfLine)
       {
         // This is incorrect!
         break;
       }
-      else if (endofline == begin)
+      else if (endOfLine == begin)
       {
         var += 2;
         break;
       }
 
-      char* colon = std::strstr(begin, ":");
+      char *colon = std::strstr(begin, ":");
 
       std::string variable = std::string(begin, colon);
       // Move the cursor to the start of the next word

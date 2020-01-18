@@ -20,7 +20,6 @@
 
 namespace httpd
 {
-
   class Server
   {
   public:
