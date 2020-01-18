@@ -23,7 +23,7 @@ namespace httpd
 
     void log();
 
-    static std::string toString(method::eHTTPMethod_t);
+    static std::string methodToString(method::eHTTPMethod_t);
 
   protected:
     method::eHTTPMethod_t method_ = method::OTHER;

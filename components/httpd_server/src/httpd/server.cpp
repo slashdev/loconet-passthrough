@@ -127,7 +127,7 @@ namespace httpd
             break;
         }
         session->response()->constructDefaultMessage(
-            "method: " + Request::toString(session->request()->method())
+            "method: " + Request::methodToString(session->request()->method())
             + " not possible on URI: " + session->request()->uri()
         );
       }
