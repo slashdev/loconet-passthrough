@@ -8,6 +8,14 @@ namespace httpd
   {
   }
 
+  Server::Server(uint16_t port)
+  {
+    dest_addr_ = {};
+    dest_addr_.sin_addr.s_addr = htonl(INADDR_ANY);
+    dest_addr_.sin_family = AF_INET;
+    dest_addr_.sin_port = htons(port);
+  }
+
   Server::~Server()
   {
     handlers_.clear();
@@ -17,14 +25,6 @@ namespace httpd
       delete s;
     }
     sessions_.clear();
-  }
-
-  Server::Server(uint16_t port)
-  {
-    dest_addr_ = {};
-    dest_addr_.sin_addr.s_addr = htonl(INADDR_ANY);
-    dest_addr_.sin_family = AF_INET;
-    dest_addr_.sin_port = htons(port);
   }
 
   void Server::add(RequestHandler* handler)
@@ -82,7 +82,6 @@ namespace httpd
   {
     if (socket_ < 0)
     {
-      // ESP_LOGE(TAG, "NO SOCKET");
       return ESP_FAIL;
     }
 
@@ -143,7 +142,6 @@ namespace httpd
   {
     if (socket_ < 0)
     {
-      // ESP_LOGD(TAG, "NO SOCKET");
       return ESP_FAIL;
     }
 
