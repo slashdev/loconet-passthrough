@@ -1,6 +1,6 @@
 set(COMPONENT_ADD_INCLUDEDIRS src)
 set(COMPONENT_SRCS
-  "src/wifihandler/handler.cpp"
+  "src/wificonfigurator/handler.cpp"
 )
 
 set(COMPONENT_REQUIRES

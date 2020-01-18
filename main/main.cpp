@@ -16,7 +16,7 @@
 #include "wifisettings.h"
 
 #include "httpd_server_task.hpp"
-#include "wifihandler/handler.hpp"
+#include "wificonfigurator/handler.hpp"
 
 extern "C" {
 
@@ -43,6 +43,6 @@ extern "C" {
         WifiConnector::start();
 
         httpd_server_initialize(16000, 2);
-        httpd_server_add_handler(new httpd::handlers::wifi::Handler());
+        httpd_server_add_handler(new wificonfigurator::Handler());
     }
 }
