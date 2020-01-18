@@ -16,33 +16,33 @@
 
 namespace httpd
 {
-	class Session
-	{
-	public:
-		Session(int, sockaddr_in);
-		~Session();
+  class Session
+  {
+  public:
+    Session(int, sockaddr_in);
+    ~Session();
 
-		int socket();
+    int socket();
 
-		Request* request();
-		Response* response();
+    Request* request();
+    Response* response();
 
-		void reply();
+    void reply();
 
-		// Returns true if the data on the connection
-		// could be read and processed.
-		// Request and Response are only set if process == true.
-		bool process();
+    // Returns true if the data on the connection
+    // could be read and processed.
+    // Request and Response are only set if process() == true.
+    bool process();
 
-	private:
-		int socket_ = -1;
-		sockaddr_in from_ = {};
+  private:
+    int socket_ = -1;
+    sockaddr_in from_ = {};
 
-		Request* request_ = NULL;
-		Response* response_ = NULL;
+    Request* request_ = NULL;
+    Response* response_ = NULL;
 
-		const char* TAG = "HTTPD Session";
-	};
+    const char* TAG = "HTTPD Session";
+  };
 }
 
 #endif

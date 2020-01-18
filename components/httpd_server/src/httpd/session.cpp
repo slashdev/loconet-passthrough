@@ -11,8 +11,14 @@ namespace httpd
 
   Session::~Session()
   {
-    if (request_ != NULL) delete request_;
-    if (response_ != NULL) delete response_;
+    if (request_ != NULL)
+    {
+      delete request_;
+    }
+    if (response_ != NULL)
+    {
+      delete response_;
+    }
 
     if (socket_ > 0)
     {
@@ -46,24 +52,21 @@ namespace httpd
 
     char buffer[HTTD_SERVER_MAX_REQUEST_LENGTH];
 
-     int len = recv(socket_, buffer, sizeof(buffer) - 1, 0);
-     if (len > 0)
-     {
-       // We received a message! First terminate the string :-)
-       buffer[len] = 0;
+    int len = recv(socket_, buffer, sizeof(buffer) - 1, 0);
+    if (len > 0)
+    {
+      // We received a message! First terminate the string :-)
+      buffer[len] = 0;
 
-       ESP_LOGI(TAG, "I received %d bytes", len);
+      ESP_LOGI(TAG, "I received %d bytes", len);
 
-       request_ = new Request(buffer);
+      request_ = new Request(buffer);
+      response_ = new Response();
 
-       // Split the buffer into a header and the rest
-       response_ = new Response();
-
-       return true;
-     }
-
-     return false;
-  }
+      return true;
+    }
+    return false;
+}
 
   void Session::reply()
   {
